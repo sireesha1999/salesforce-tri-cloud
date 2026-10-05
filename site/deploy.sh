@@ -18,9 +18,9 @@ fi
 EMAIL="$(sed -n 's/^ALLOWED_EMAIL=//p' functions/.env)"
 sed "s/__ALLOWED_EMAIL__/${EMAIL}/" firestore.rules.template > firestore.rules
 
-if ! firebase functions:secrets:access ANTHROPIC_API_KEY >/dev/null 2>&1; then
-  echo "Paste your Anthropic API key when prompted (it is stored in Google Secret Manager, not in this repo)."
-  firebase functions:secrets:set ANTHROPIC_API_KEY
+if ! firebase functions:secrets:access GEMINI_API_KEY >/dev/null 2>&1; then
+  echo "Paste your Gemini API key from Google AI Studio when prompted (it is stored in Google Secret Manager, not in this repo)."
+  firebase functions:secrets:set GEMINI_API_KEY
 fi
 
 (cd functions && npm install --omit=dev)

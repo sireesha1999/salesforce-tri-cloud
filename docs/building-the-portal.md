@@ -16,7 +16,7 @@ I needed to master three fast-changing Salesforce products (Data 360, Revenue Cl
 | 4 | Read everything in the portal itself; stay current | Written lessons summarised from docs, Trailhead and blogs, with interview answers and sources; Salesforce Updates feed; global search |
 | 5 | AI tutor while reading/watching; zero manual steps; interview prep; GitHub | Moved to a private claude.ai page: in-page AI tutor, cloud-synced progress, updates written automatically by a scheduled research job, interview track with live-coding scenarios, this repository |
 | 6 | More colourful, interactive, responsive | Section colour theming, progress rings, celebration feedback, tablet icon rail, phone tab bar |
-| 8 | Own domain, no dependency on Claude's hosting | Firebase Hosting + Google sign-in locked to one email, Firestore sync, Cloud Function proxy to the Claude API (streaming, rate-limited), scheduled functions for daily updates (web search) and weekly reports |
+| 8 | Own domain, no dependency on Claude's hosting | Firebase Hosting + Google sign-in locked to one email, Firestore sync, Cloud Function proxy to the Gemini API free tier (streaming, rate-limited), scheduled functions for daily updates (Salesforce RSS feeds summarised by Gemini) and weekly reports |
 | 7 | A true one-stop shop for learning and interviews | Today hub, spaced-repetition flashcards, weak-spot scoring, AI-scored mock interviews, STAR bank, job board with JD fit analysis, certification readiness, glossary and cheat sheets, code playground, badges, focus mode, weekly reports |
 
 ## Architecture (final)
