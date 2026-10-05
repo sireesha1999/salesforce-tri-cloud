@@ -278,7 +278,7 @@ main .card,main .guide,main .upd,main pre{min-width:0}
 @media (min-width:901px) and (max-width:1180px){
   .app{grid-template-columns:78px minmax(0,1fr)}
   nav.side{padding:16px 10px}
-  nav.side .btext,nav.side .lbl,nav.side .side-foot,nav.side .navsep{display:none}
+  nav.side .btext,nav.side .lbl,nav.side .side-foot,nav.side .navsep,nav.side .ngroup{display:none}
   nav.side button.nav{justify-content:center;padding:6px}
   nav.side button.nav .nbadge{position:absolute;transform:translate(14px,-12px)}
   nav.side button.nav{position:relative}
@@ -307,6 +307,97 @@ main .card,main .guide,main .upd,main pre{min-width:0}
 }
 @media (max-width:420px){ .sheet-list{grid-template-columns:1fr} .stat .v{font-size:24px} .tile{padding:14px} }
 @media (prefers-reduced-motion:reduce){ .mring{transition:none} #tutorBtn{animation:none} }
+
+/* ================= features ================= */
+.ngroup{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:14px 10px 4px}
+kbd{font:600 11px "IBM Plex Mono",monospace;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px;margin-left:6px;background:var(--panel2);color:var(--muted)}
+.hello{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.hello h1{margin:0}
+.mini-timer{display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 14px;box-shadow:var(--shadow)}
+.mini-timer .clock{font-size:26px}
+.today-grid{align-items:start;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.today-grid .span2{grid-column:span 2}
+@media (max-width:700px){ .today-grid .span2{grid-column:auto} }
+.tick{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);flex:none;margin-top:2px;display:grid;place-items:center}
+.tick.on{background:var(--ok);border-color:var(--ok)}
+.tick.on::after{content:"";width:6px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.drillq{font-size:17px;font-weight:600;line-height:1.45;margin:10px 0;text-wrap:pretty}
+.cd{display:flex;gap:12px;align-items:center;padding:8px 0}
+.cd>b{font-size:30px;color:var(--vc);min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
+.wk-sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}
+.wk-sum>div{background:color-mix(in srgb,var(--vc) 7%,var(--panel2));border-radius:10px;padding:10px}
+.wk-sum b{display:block;font-size:22px}.wk-sum span{font-size:12.5px;color:var(--muted)}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.badge-i{border:1px dashed var(--line);border-radius:12px;padding:10px;text-align:center;opacity:.55;filter:grayscale(1)}
+.badge-i span{font-size:26px;display:block}.badge-i b{display:block;font-size:13px;margin-top:4px}.badge-i small{color:var(--muted);font-size:11.5px}
+.badge-i.on{opacity:1;filter:none;border-style:solid;border-color:color-mix(in srgb,#f59e0b 50%,var(--line));background:color-mix(in srgb,#f59e0b 9%,var(--panel))}
+textarea.plain{font-family:inherit;font-size:14.5px}
+.today-grid .item .btn{margin-left:auto}
+.kanban{min-width:0}
+@media (max-width:900px){ .app{grid-template-columns:minmax(0,1fr)} }
+/* weak spots */
+.weak{display:grid;gap:8px}
+.wrow{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:4px 10px;align-items:center;font-size:13.5px}
+.wrow .wl{grid-column:1/-1;font-weight:600}
+.wl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wbar{height:8px;border-radius:99px;background:color-mix(in srgb,var(--c) 14%,var(--panel2));overflow:hidden}
+.wbar i{display:block;height:100%;background:var(--c);border-radius:99px}
+.wv{font-variant-numeric:tabular-nums;min-width:26px;text-align:right}
+/* flashcards */
+.fcard{background:var(--panel);border:1px solid color-mix(in srgb,var(--c) 35%,var(--line));border-top:6px solid var(--c);border-radius:18px;padding:22px clamp(16px,4vw,34px);box-shadow:0 14px 34px color-mix(in srgb,var(--c) 14%,transparent);max-width:760px;margin:0 auto;animation:pop .25s ease}
+@keyframes pop{from{transform:translateY(8px) scale(.99);opacity:.4}}
+.fq{font-size:clamp(18px,2.4vw,23px);font-weight:600;line-height:1.4;margin:18px 0;text-wrap:balance}
+.fa{font-size:16px;line-height:1.6;padding:14px 16px;border-radius:12px;background:color-mix(in srgb,var(--c) 8%,var(--panel2));margin-bottom:16px}
+.btn.big{padding:12px 22px;font-size:15px}
+.rate{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.rate .btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 6px}
+.rate small{color:var(--muted);font-weight:500}
+.rate .r0{border-color:#dc2626;color:#dc2626}.rate .r1{border-color:var(--warn);color:var(--warn)}.rate .r2{border-color:var(--ok);color:var(--ok)}.rate .r3{border-color:#0ea5e9;color:#0ea5e9}
+.empty{text-align:center;padding:32px 20px}
+/* mock */
+.msteps{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0}
+.mstep{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);background:var(--panel);font-weight:700;cursor:pointer;color:var(--ink)}
+.mstep.ans{border-color:var(--vc);color:var(--vc)}
+.mstep.on{background:var(--vc);border-color:var(--vc);color:#fff}
+.mclock{font-size:24px;color:var(--vc)}.mclock.late{color:#dc2626}
+.mres summary{display:flex;gap:10px;align-items:center}
+.bar>i.indet{width:40%;background:var(--vc);animation:indet 1.2s ease-in-out infinite}
+@keyframes indet{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
+/* career */
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-size:12.5px;border:1px solid var(--line);border-radius:99px;padding:4px 10px;background:var(--panel);display:inline-flex;gap:6px;align-items:center;cursor:default}
+label.chip{cursor:pointer}
+.chip.on{background:color-mix(in srgb,#0284c7 12%,var(--panel));border-color:color-mix(in srgb,#0284c7 40%,var(--line));color:var(--ink)}
+.kanban{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(200px,1fr);gap:10px;overflow-x:auto;padding-bottom:8px}
+.kcol{background:var(--panel2);border-radius:12px;padding:8px;min-height:160px;transition:background .15s}
+.kcol.over{background:color-mix(in srgb,var(--vc) 14%,var(--panel2))}
+.khead{display:flex;justify-content:space-between;align-items:center;padding:4px 4px 8px}
+.kcard{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--vc);border-radius:10px;padding:8px 10px;margin-bottom:8px;cursor:grab;display:grid;gap:2px;font-size:13.5px;transition:transform .12s}
+.kcard:hover{transform:translateY(-2px)}.kcard.drag{opacity:.5}
+.kcard small{color:var(--muted)}
+.kcol[data-stage="Offer"] .kcard{border-left-color:var(--ok)}.kcol[data-stage="Rejected"] .kcard{border-left-color:#94a3b8}
+.cert{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px dashed var(--line)}
+.match h4{margin:14px 0 6px;color:var(--vc)}
+/* glossary */
+.gloss{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:10px}
+.gterm{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--c);border-radius:10px;padding:10px 12px;display:grid;gap:4px;font-size:14px}
+.gterm b{color:var(--c)}
+/* playground */
+.pg{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:1100px){ .pg{grid-template-columns:1fr} }
+.editor{display:grid;grid-template-columns:auto minmax(0,1fr);border-radius:10px;overflow:hidden;background:var(--code);height:420px}
+.editor .gutter{margin:0;padding:12px 8px;text-align:right;color:#64748b;background:color-mix(in srgb,var(--code) 80%,#000);overflow:hidden;border-radius:0;user-select:none;font:12.8px/1.5 "IBM Plex Mono",monospace}
+.editor textarea{border:0;border-radius:0;background:transparent;color:var(--code-ink);font:12.8px/1.5 "IBM Plex Mono",monospace;padding:12px;height:100%;resize:none;white-space:pre;overflow:auto;tab-size:4;min-height:0}
+.editor textarea:focus{outline:2px solid var(--vc);outline-offset:-2px}
+.pgout{max-height:560px;overflow:auto}
+.pgout pre{white-space:pre-wrap}
+/* focus mode */
+.focus{position:fixed;inset:0;z-index:45;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--vc) 30%,var(--bg)),var(--bg) 70%);padding:16px}
+.focus[data-phase="break"]{background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--ok) 30%,var(--bg)),var(--bg) 70%)}
+.focus-box{text-align:center}
+.fphase{font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--vc)}
+.focus[data-phase="break"] .fphase{color:var(--ok)}
+.fclock{font:600 clamp(64px,16vw,140px)/1 "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;margin:10px 0}
 </style>
 <div class="mobile-nav"><div class="mtop"><span class="mark" aria-hidden="true"></span><b>Tri-Cloud Lab</b><span id="mview"></span></div></div>
 <div class="app">
@@ -321,6 +412,7 @@ main .card,main .guide,main .upd,main pre{min-width:0}
 </div>
 <div class="toast" id="toast" role="status"></div>
 <nav class="tabbar" id="tabbar" aria-label="Sections"></nav>
+<div class="focus" id="focus" hidden data-phase="work"><div class="focus-box"><div id="focusPhase" class="fphase">Focus</div><div id="focusClock" class="fclock">25:00</div><div id="focusCycles" class="muted"></div><div class="row" style="justify-content:center;margin-top:18px"><button class="btn" id="focusSkip" type="button">Skip</button><button class="btn" id="focusHide" type="button">Minimise</button><button class="btn danger" id="focusStop" type="button">End focus</button></div></div></div>
 <div class="sheet" id="moreSheet" hidden><div class="sheet-box" role="dialog" aria-label="All sections"><div class="sheet-head"><b>All sections</b><button class="btn sm" id="sheetClose" type="button">Close</button></div><div id="sheetList" class="sheet-list"></div></div></div>
 <button id="tutorBtn" type="button" aria-label="Ask the AI tutor">Ask tutor</button>
 <aside id="tutor" hidden aria-label="AI tutor">
@@ -2610,17 +2702,19 @@ function currentWeek(){
    NAV + ROUTER
    ========================================================================= */
 const VIEWS = [
-  ['dash','Dashboard'],['lessons','Daily Lessons'],['updates','Salesforce Updates'],['interview','Interview Prep'],['search','Search'],['courses','Courses'],['curr','Curriculum'],['notes','Notes & Snippets'],
-  ['guides','Project Guides'],['vault','Resume & Vault'],['settings','Settings & Backup']
+  ['today','Today','Learn'],['lessons','Daily Lessons','Learn'],['cards','Flashcards','Learn'],['updates','Salesforce Updates','Learn'],['glossary','Glossary','Learn'],['courses','Courses','Learn'],['curr','Curriculum','Learn'],['guides','Project Guides','Learn'],
+  ['interview','Interview Prep','Practise'],['mock','Mock Interview','Practise'],['play','Code Playground','Practise'],
+  ['career','Career','Career'],['vault','Resume & Vault','Career'],
+  ['dash','Progress','Tools'],['notes','Notes & Snippets','Tools'],['search','Search','Tools'],['settings','Settings & Backup','Tools']
 ];
-let view='dash', guideOpen=null, notesMod='dc', currFilter='all';
+let view='today', guideOpen=null, notesMod='dc', currFilter='all';
 function buildNav(){
   const un=unreadCount();
   const navBtn=([id,l])=>'<button class="nav'+(view===id?' active':'')+'" data-view="'+id+'" style="--c:'+VIEWCOL[id]+'" title="'+l+'"><span class="ic">'+ICON(id)+'</span><span class="lbl">'+l+'</span>'+(id==='updates'&&un?'<span class="nbadge">'+un+'</span>':'')+'</button>';
-  $('#navlist').innerHTML = VIEWS.map(navBtn).join('');
+  let lastG=''; $('#navlist').innerHTML = VIEWS.map(v=>{ const g=v[2]&&v[2]!==lastG?'<div class="ngroup">'+v[2]+'</div>':''; lastG=v[2]||lastG; return g+navBtn(v); }).join('');
   $('#sheetList').innerHTML = VIEWS.map(navBtn).join('');
-  const TB=['dash','lessons','interview','updates'];
-  $('#tabbar').innerHTML = TB.map(id=>'<button class="tb'+(view===id?' active':'')+'" data-view="'+id+'" style="--c:'+VIEWCOL[id]+'"><span class="ic">'+ICON(id)+(id==='updates'&&un?'<i class="dot"></i>':'')+'</span><span>'+({dash:'Home',lessons:'Lessons',interview:'Interview',updates:'Updates'})[id]+'</span></button>').join('')+'<button class="tb'+(TB.includes(view)?'':' active')+'" id="tbMore" type="button" style="--c:'+VIEWCOL[view]+'"><span class="ic">'+ICON('more')+'</span><span>More</span></button>';
+  const TB=['today','lessons','cards','interview'];
+  $('#tabbar').innerHTML = TB.map(id=>'<button class="tb'+(view===id?' active':'')+'" data-view="'+id+'" style="--c:'+VIEWCOL[id]+'"><span class="ic">'+ICON(id)+(id==='updates'&&un?'<i class="dot"></i>':'')+'</span><span>'+({today:'Today',lessons:'Lessons',cards:'Cards',interview:'Interview'})[id]+'</span></button>').join('')+'<button class="tb'+(TB.includes(view)?'':' active')+'" id="tbMore" type="button" style="--c:'+VIEWCOL[view]+'"><span class="ic">'+ICON('more')+'</span><span>More</span></button>';
   const mv=$('#mview'); if(mv){ const v=VIEWS.find(x=>x[0]===view); mv.textContent=v?v[1]:''; }
   document.body.style.setProperty('--vc', VIEWCOL[view]||'var(--accent)');
   const more=$('#tbMore'); if(more) more.onclick=()=>{ $('#moreSheet').hidden=false; };
@@ -2644,8 +2738,14 @@ function render(){
   else if(view==='notes') m.innerHTML=vNotes();
   else if(view==='guides') m.innerHTML=vGuides();
   else if(view==='vault') m.innerHTML=vVault();
+  else if(view==='today') m.innerHTML=vToday();
+  else if(view==='cards') m.innerHTML=vCards();
+  else if(view==='mock') m.innerHTML=vMock();
+  else if(view==='career') m.innerHTML=vCareer();
+  else if(view==='glossary') m.innerHTML=vGlossary();
+  else if(view==='play') m.innerHTML=vPlay();
   else m.innerHTML=vSettings();
-  bind();
+  bind(); if(typeof bindFeatures==='function') bindFeatures();
 }
 
 /* =========================================================================
@@ -2657,7 +2757,7 @@ function vDash(){
   const max=Math.max(targetSec(new Date()), ...days.map(d=>daySec(dkey(d))));
   const o=overall();
   return `
-  <h1>Dashboard</h1>
+  <h1>Progress</h1>
   <p class="sub">${new Date().toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'})} · ${isWeekend()?'Weekend':'Weekday'} target ${isWeekend()?S.settings.weekendH:S.settings.weekdayH} h
   ${wk?` · <b>Week ${wk.w}: ${esc(wk.title)}</b>`:''}${planEnd()?` · Plan ends ${fmtDate(planEnd())}`:''}</p>
   <div class="grid g2">
@@ -2820,6 +2920,8 @@ function vSearch(){
     LESSONS.forEach((L,i)=>{ const R=READ[i+1]||{}; const t=[L.t,plain(R.r),R.iv||'',L.c.join(' '),L.l.join(' '),L.q.map(x=>x.join(' ')).join(' ')].join(' ');
       if(t.toLowerCase().includes(q)) res.push({k:'Lesson',label:'Day '+(i+1)+' · '+L.t,snip:snippetAround(t,q),go:`data-golesson="${i+1}"`}); });
     allUpdates().forEach(u=>{ const t=[u.title,u.summary,u.dev,u.body||''].join(' '); if(t.toLowerCase().includes(q)) res.push({k:'Update',label:u.date+' · '+u.title,snip:snippetAround(t,q),go:'data-view="updates"'}); });
+    GLOSSARY.forEach(([gt,ga,gd])=>{ const t=gt+' '+gd; if(t.toLowerCase().includes(q)) res.push({k:'Glossary',label:gt,snip:snippetAround(t,q),go:'data-view="glossary"'}); });
+    (S.stars||[]).forEach(st=>{ const t=[st.title,st.s,st.t,st.a,st.r].join(' '); if(t.toLowerCase().includes(q)) res.push({k:'STAR story',label:st.title||'Story',snip:snippetAround(t,q),go:'data-view="career"'}); });
     IV_TOPICS.forEach(tp=>{ const t=[tp.title,plain(tp.read),tp.qa.map(x=>x.join(' ')).join(' ')].join(' '); if(t.toLowerCase().includes(q)) res.push({k:'Interview',label:tp.title,snip:snippetAround(t,q),go:`data-goiv="${tp.id}"`}); });
     IV_SCENARIOS.forEach(sc=>{ const t=[sc.title,sc.prompt,sc.talk||'',plain(sc.solution||'')].join(' '); if(t.toLowerCase().includes(q)) res.push({k:'Scenario',label:sc.id+' · '+sc.title,snip:snippetAround(t,q),go:`data-goscen="${sc.id}"`}); });
     Object.entries(PROJECTS).forEach(([k,p])=>{ const t=plain(p.html); if(t.toLowerCase().includes(q)) res.push({k:'Project guide',label:p.title,snip:snippetAround(t,q),go:`data-goguide="${k}"`}); });
@@ -3369,7 +3471,7 @@ const SCEN_CODE = {"force-app/main/default/triggers/CaseTrigger.trigger": "trigg
    collection written each morning by the scheduled update task.
    ========================================================================= */
 const SYNC = { db:null, base:null, ready:false, timer:null, busy:Promise.resolve(), status:'local' };
-const CONTENT_KEYS = ['notes','snippets','vault','drafts'];
+const CONTENT_KEYS = ['notes','snippets','vault','drafts','stars','jobs','til','mocks','mockDraft'];
 let lastSent = { p:'', c:'' };
 let DB_UPDATES = [];
 function splitState(){ const p={}, c={}; for(const k in S){ (CONTENT_KEYS.includes(k)?c:p)[k]=S[k]; } return {p,c}; }
@@ -3426,7 +3528,7 @@ async function initCloud(){
       lastSent.c = cs.exists ? (cs.data().json||'') : '';
       applyState(Object.assign({}, p, c));
     }
-    SYNC.ready=true; setSyncStatus('synced');
+    SYNC.ready=true; setSyncStatus('synced'); if(typeof loadReports==='function') loadReports(); if(typeof checkBadges==='function') checkBadges();
     if(!ps.exists || !cs.exists) syncNow();
     buildNav(); rerenderKeepScroll();
   }catch(e){ setSyncStatus('error'); }
@@ -3539,6 +3641,12 @@ function tutorContext(){
       text='TOPIC: '+t.title+'\n'+plain(t.read)+'\nQ&A:\n'+t.qa.map(([q,a])=>'Q: '+q+'\nA: '+a).join('\n');
     } else if(view==='guides' && guideOpen){
       const p=PROJECTS[guideOpen]; label=p.title; text='PROJECT GUIDE: '+p.title+'\n'+plain(p.html).slice(0,16000);
+    } else if(view==='cards' && typeof FC!=='undefined' && FC.cur){
+      label='Flashcard · '+FC.cur.src; text='FLASHCARD QUESTION: '+FC.cur.q+'\nANSWER ON THE CARD: '+FC.cur.a;
+    } else if(view==='play'){
+      label='Code playground'; text='CODE IN THE EDITOR:\n'+String(((S.drafts||{}).playground||{}).code||'').slice(0,12000);
+    } else if(view==='career'){
+      label='Career'; text='STAR stories: '+(S.stars||[]).map(s=>s.title).join('; ')+'\nJobs: '+(S.jobs||[]).map(j=>j.company+' — '+j.role+' ('+j.stage+')').join('; ');
     } else if(view==='updates'){
       label='Salesforce updates';
     } else if(view==='notes'){
@@ -3613,7 +3721,7 @@ function bindTutor(){
 
 const AREACOL = {Apex:'#2563eb', LWC:'#0891b2', Integration:'#ea580c', Flow:'#8b5cf6', Platform:'#64748b', Clouds:'#db2777'};
 function scenCol(s){ const t=IV_TOPICS.find(x=>x.id===s.topic); return t&&AREACOL[t.area]||'#16a34a'; }
-const VIEWCOL = {dash:'#4f46e5', lessons:'#0d9488', updates:'#db2777', interview:'#16a34a', search:'#0891b2', courses:'#d97706', curr:'#2563eb', notes:'#8b5cf6', guides:'#ea580c', vault:'#ca8a04', settings:'#64748b'};
+const VIEWCOL = {today:'#f97316', cards:'#e11d48', mock:'#7c3aed', play:'#0f766e', career:'#0284c7', glossary:'#65a30d', dash:'#4f46e5', lessons:'#0d9488', updates:'#db2777', interview:'#16a34a', search:'#0891b2', courses:'#d97706', curr:'#2563eb', notes:'#8b5cf6', guides:'#ea580c', vault:'#ca8a04', settings:'#64748b'};
 const ICONP = {
  dash:'M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z',
  lessons:'M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 21V5',
@@ -3626,7 +3734,13 @@ const ICONP = {
  guides:'M9 4l6 2 6-2v16l-6 2-6-2-6 2V6zM9 4v16M15 6v16',
  vault:'M12 3a6 6 0 1 0 0 12 6 6 0 0 0 0-12zM8.5 14L7 21l5-3 5 3-1.5-7',
  settings:'M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM4 12h2M18 12h2M12 4v2M12 18v2M6.3 6.3l1.4 1.4M16.3 16.3l1.4 1.4M6.3 17.7l1.4-1.4M16.3 7.7l1.4-1.4',
- more:'M5 12h.01M12 12h.01M19 12h.01'
+ more:'M5 12h.01M12 12h.01M19 12h.01',
+ today:'M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z',
+ cards:'M8 4h12v13H8zM4 8v12h12',
+ mock:'M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3',
+ play:'M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14',
+ career:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM12 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2z',
+ glossary:'M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3zM8 8h6M8 12h6'
 };
 function ICON(n){ return '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="'+(ICONP[n]||ICONP.more)+'"/></svg>'; }
 const BURST_COLS=['#0d9488','#ea580c','#8b5cf6','#2563eb','#16a34a','#db2777','#f59e0b'];
@@ -3647,5 +3761,648 @@ document.addEventListener('change',e=>{
 }, true);
 
 /* boot */
-buildNav(); render(); bindTutor(); initCloud();
+/* =========================================================================
+   GLOSSARY — one-line definitions in original words
+   area: dc | rc | af | tri | core
+   ========================================================================= */
+const GLOSSARY = [
+ ["Data 360","dc","Salesforce's data platform (formerly Data Cloud) that ingests or federates data, unifies identities and activates the result to CRM, marketing and agents."],
+ ["Data stream","dc","A configured ingestion of one object from one source, with a category, primary key and (for engagement data) an event-time field."],
+ ["DLO (Data Lake Object)","dc","Storage for ingested data in the source's own shape; the raw layer."],
+ ["DMO (Data Model Object)","dc","A harmonised view over DLOs following the Customer 360 Data Model; most downstream features use DMOs."],
+ ["Customer 360 Data Model","dc","Salesforce's standard, party-centric data model: Individual and Account as parties, with contact points and Party Identification."],
+ ["Contact point","dc","A way to reach a party — Contact Point Email, Phone, Address or App — linked through the Party field."],
+ ["Party Identification","dc","DMO holding external identifiers (type and value), such as an app user ID or loyalty number, used for matching."],
+ ["Identity resolution","dc","Rulesets that link records of the same person or account into unified profiles using match and reconciliation rules."],
+ ["Match rule","dc","Criteria (exact, exact normalised or fuzzy) that decide two records are the same; any single rule matching links them."],
+ ["Reconciliation rule","dc","Decides which value wins on the unified profile: last updated, most frequent or source priority."],
+ ["Unified link object","dc","Maps each source record ID to its unified profile ID; used to join and to get back to CRM records."],
+ ["Calculated insight","dc","A scheduled SQL aggregation with dimensions and measures, reusable in segments, enrichment and grounding."],
+ ["Streaming insight","dc","A near-real-time windowed aggregation over streaming data, used mainly to trigger data actions."],
+ ["Data action","dc","Sends an event to a target (platform event, webhook, Marketing Cloud) when an insight or DMO meets a rule."],
+ ["DataObjectDataChgEvent","dc","The standard platform event a Salesforce data action target publishes; values arrive as JSON in PayloadCurrentValue."],
+ ["Data graph","dc","A pre-joined JSON view of a profile and related data for fast lookups and agent grounding."],
+ ["Zero copy","dc","Querying or sharing data with Snowflake, Databricks, Redshift or BigQuery without moving it."],
+ ["Data space","dc","A logical partition of Data 360 data and metadata, for example by brand or region."],
+ ["Ingestion API","dc","REST API for pushing data into Data 360 via streaming JSON or bulk CSV jobs, defined by an OpenAPI schema."],
+ ["Copy Field enrichment","dc","Writes selected Data 360 values onto CRM record fields."],
+ ["Revenue Cloud (RLM)","rc","Salesforce's native, API-first quote-to-cash platform, also called Revenue Lifecycle Management and, in the newest docs, Revenue Management."],
+ ["Product Selling Model","rc","Defines how a product is sold: One Time, Term Defined or Evergreen, with a pricing term and unit."],
+ ["Product classification","rc","A template of attribute categories that products inherit, avoiding a SKU per variant."],
+ ["Attribute definition","rc","A configurable characteristic (such as Connectivity) with a data type, default and picklist."],
+ ["Product Component Group","rc","A group of components inside a bundle, with min/max and required rules."],
+ ["Context definition","rc","Describes the data a pricing run sees (nodes, attributes) and maps it to records such as Quote and QuoteLineItem."],
+ ["Pricing procedure","rc","An ordered expression set of pricing elements (list price, adjustments, discounts, totals)."],
+ ["Price adjustment schedule","rc","Quantity-based discounts: volume (all units at the reached tier) or tiered/slab (per band)."],
+ ["Decision table","rc","A fast lookup table used by pricing and rules, such as customer tier to discount."],
+ ["Price waterfall","rc","Step-by-step view of how a line's price was calculated."],
+ ["Sync Pricing Data","rc","Refreshes pricing caches after price, schedule or decision-table changes."],
+ ["CML (Constraint Modeling Language)","rc","Language for configuration rules: types, relations and constraints."],
+ ["Asset State Period","rc","Records an asset's quantity and amount over a time period, keeping history for amendments and renewals."],
+ ["Co-terming","rc","Aligning an amendment's end date with the existing contract term."],
+ ["Proration policy","rc","Rules for charging partial periods on mid-term changes."],
+ ["Dynamic Revenue Orchestrator (DRO)","rc","Decomposes orders into fulfilment steps and orchestrates them."],
+ ["Usage Management","rc","Handles metered consumption: usage resources, rates and entitlements, rated into charges."],
+ ["Place Sales Transaction API","rc","Connect REST API to create or update quotes and orders with configuration and pricing in one call."],
+ ["Agentforce","af","Salesforce's platform for AI agents that reason over requests and take actions on business data."],
+ ["Agentforce Studio","af","Where agents are built with the new Agentforce Builder (Canvas and Agent Script views)."],
+ ["Subagent","af","A unit of an agent's work with a routing description, instructions and actions; called a topic in the legacy builder."],
+ ["Agent Script","af","Agentforce's scripting language mixing natural-language instructions with deterministic logic, variables and transitions."],
+ ["Hybrid reasoning","af","Combining deterministic steps (rules that must always run) with LLM reasoning."],
+ ["Agent action","af","Something an agent can do: Flow, Apex, prompt template, API or standard action."],
+ ["Agent user","af","The identity an agent runs as; its permissions bound what the agent can do."],
+ ["Einstein Trust Layer","af","Protections between data and LLMs: grounding, masking, zero data retention, toxicity scoring and audit."],
+ ["Prompt template","af","A reusable, grounded prompt (Sales Email, Field Generation, Record Summary, Flex) built in Prompt Builder."],
+ ["Retriever","af","Fetches relevant chunks from a Data 360 search index at runtime to ground answers (RAG)."],
+ ["Testing Center","af","Runs batches of agent test cases with expected subagent, actions and outcome."],
+ ["Agentforce DX","af","CLI and VS Code tooling to build, preview and test agents as source."],
+ ["Governor limits","core","Per-transaction limits on queries, DML, CPU, heap and callouts in Apex's multi-tenant runtime."],
+ ["Bulkification","core","Writing code that handles many records with constant queries and DML, never inside loops."],
+ ["Trigger handler","core","A class that holds trigger logic, called from a single trigger per object."],
+ ["Order of execution","core","The fixed sequence of validation, flows, triggers, rules and commit when a record is saved."],
+ ["Queueable Apex","core","Async job class accepting complex parameters, returning a job ID and supporting chaining."],
+ ["Batch Apex","core","Async processing of large data sets in chunks via start, execute and finish."],
+ ["Database.Stateful","core","Keeps a batch's instance variables across execute() chunks."],
+ ["USER_MODE","core","Runs SOQL/DML enforcing the user's CRUD, FLS and sharing."],
+ ["with sharing","core","Apex keyword enforcing the running user's record-level access."],
+ ["Named Credential","core","Stores an endpoint and auth (with an External Credential) so code never holds secrets."],
+ ["Platform event","core","A custom event message (__e) for decoupled, event-driven integration."],
+ ["Change Data Capture","core","Automatic change events for record creates, updates, deletes and undeletes."],
+ ["ReplayId","core","Position of an event in the stream, used by subscribers to resume after a gap."],
+ ["Lightning Data Service","core","Cached, security-aware record access for LWC without Apex."],
+ ["@wire","core","LWC decorator providing reactive data from Apex or LDS adapters."],
+ ["Lightning Message Service","core","Publish/subscribe messaging between unrelated components on a page."],
+ ["Before-save flow","core","Record-triggered flow that updates the triggering record before save, without DML."],
+ ["Invocable method","core","Apex method exposed to Flow and agents with @InvocableMethod."],
+ ["Entitlement process","core","Service Cloud SLA timeline with milestones and warning/violation actions."],
+ ["Omni-Channel","core","Routes work items to available agents by queue or skills, respecting capacity."],
+ ["Lead conversion","core","Turns a lead into an account, contact and optionally an opportunity."],
+ ["Price rule (CPQ)","core","Salesforce CPQ rule that changes quote fields during calculation using conditions and actions."],
+ ["Quote Calculator Plugin","core","JavaScript hooks in Salesforce CPQ for custom pricing logic."]
+];
+
+/* =========================================================================
+   FEATURES: Today · Flashcards · Weak spots · Mock interview · Career
+   (STAR, jobs, JD matcher, certifications) · Glossary & cheat sheets ·
+   Playground · Badges · Focus mode · TIL
+   ========================================================================= */
+const AREA_LABEL = Object.assign({dc:'Data 360', rc:'Revenue Cloud', af:'Agentforce', tri:'Tri-Cloud'}, Object.fromEntries(IV_TOPICS.map(t=>[t.id,t.title])));
+function areaColor(a){ return MODS[a]?MODS[a].color : (IV_TOPICS.find(t=>t.id===a)?AREACOL[IV_TOPICS.find(t=>t.id===a).area]:'var(--vc)'); }
+function todayKey(){ return dkey(); }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function ensureState(){
+  for(const [k,v] of Object.entries({cards:{},cardDay:{},areaScore:{},mocks:[],mockTopic:{},stars:[],jobs:[],certs:[],til:[],badges:{},drill:{}})) if(S[k]==null) S[k]=structuredClone(v);
+  const st=S.settings; if(st.newPerDay==null) st.newPerDay=15; if(st.focusWork==null) st.focusWork=25; if(st.focusBreak==null) st.focusBreak=5;
+}
+async function ask(input, opts){ // shared Claude call
+  let sample=null; try{ sample = window.claude && await claude.use('sample'); }catch(e){}
+  if(!sample) throw {code:'unavailable'};
+  return sample(input, opts||{});
+}
+async function askJson(input, opts){
+  let sample=null; try{ sample = window.claude && await claude.use('sample'); }catch(e){}
+  if(!sample) throw {code:'unavailable'};
+  return sample.json(input, opts||{});
+}
+function aiErr(e){ return ({unavailable:'This needs the page to be open inside Claude.',not_granted:'Allow the page to use Claude, then try again.',rate_limited:'Too many requests — wait a moment.',invalid_json:'The answer came back in the wrong shape — try again.',cancelled:'Stopped.'})[e&&e.code]||'Something went wrong — try again.'; }
+async function downloadText(filename, data){
+  let dl=null; try{ dl=window.claude&&await claude.use('downloads'); }catch(e){}
+  if(dl){ try{ await dl.save({filename, data}); toast('Saved '+filename); }catch(e){ if(!e||e.code!=='declined') toast('Download not saved'); } }
+  else { copyText(data); toast('Download unavailable here — copied to clipboard'); }
+}
+
+/* ---------------- FLASHCARDS (spaced repetition) ---------------- */
+function buildDeck(){
+  const cards=[]; const upto=currentDay()||7;
+  LESSONS.forEach((L,i)=>{ const n=i+1; if(n>upto) return; L.q.forEach(([q,a],j)=>cards.push({id:'ls'+n+'_'+j, deck:'lesson', area:L.m, q, a, src:'Day '+n+' · '+L.t})); });
+  IV_TOPICS.forEach(t=>t.qa.forEach(([q,a],j)=>cards.push({id:'iv_'+t.id+'_'+j, deck:'interview', area:t.id, q, a, src:t.title})));
+  GLOSSARY.forEach(([term,area,def])=>cards.push({id:'gl_'+term.toLowerCase().replace(/[^a-z0-9]+/g,'-'), deck:'glossary', area: area==='core'?'apex':area, q:'What is: '+term+'?', a:def, src:'Glossary'}));
+  (S.til||[]).forEach(t=>cards.push({id:'my_'+t.id, deck:'mine', area:t.area||'tri', q:t.q||('Explain: '+t.text.slice(0,80)), a:t.text, src:'Today I learned · '+t.date}));
+  return cards;
+}
+function dueInfo(deckFilter){
+  ensureState(); const t=todayKey(); const all=buildDeck().filter(c=>deckFilter==='all'||c.deck===deckFilter);
+  const due=all.filter(c=>S.cards[c.id] && S.cards[c.id].due<=t);
+  const fresh=all.filter(c=>!S.cards[c.id]);
+  const newDone=(S.cardDay[t]||{}).new||0; const newLeft=Math.max(0,S.settings.newPerDay-newDone);
+  return {all, due, fresh, newLeft, newToday:fresh.slice(0,newLeft)};
+}
+function nextIntervals(c){
+  const st=S.cards[c.id]||{ef:2.5,iv:0,reps:0};
+  const calc=g=>{ if(g===0) return 0; if(st.reps===0) return g===3?3:1; if(st.reps===1) return g===1?3:g===2?4:6; return Math.max(1,Math.round(st.iv*(g===1?1.2:g===2?st.ef:st.ef*1.3))); };
+  return [0,1,2,3].map(calc);
+}
+function rateCard(c,g){
+  const t=todayKey(); const isNew=!S.cards[c.id];
+  const st=S.cards[c.id]||{ef:2.5,iv:0,reps:0,lapses:0};
+  const iv=nextIntervals(c)[g];
+  if(g===0){ st.lapses=(st.lapses||0)+1; st.reps=0; st.iv=0; st.ef=Math.max(1.3,st.ef-0.2); }
+  else { st.iv=iv; st.reps++; st.ef=Math.max(1.3, st.ef + (g===1?-0.15:g===3?0.15:0)); }
+  st.due=dkey(addDays(new Date(), g===0?0:iv)); S.cards[c.id]=st;
+  const day=S.cardDay[t]=S.cardDay[t]||{rev:0,new:0,again:0}; day.rev++; if(isNew) day.new++; if(g===0) day.again++;
+  const a=S.areaScore[c.area]=S.areaScore[c.area]||{fc:0.6,n:0}; a.fc=0.85*a.fc+0.15*(g>=2?1:g===1?0.6:0); a.n++;
+  save();
+}
+let FC={queue:[], cur:null, shown:false, deck:'all', done:0};
+function startReview(){ const d=dueInfo(FC.deck); FC.queue=[...d.due, ...d.newToday]; FC.done=0; FC.cur=FC.queue.shift()||null; FC.shown=false; }
+function vCards(){
+  ensureState(); if(!FC.cur && FC.queue.length===0 && FC.done===0) startReview();
+  const d=dueInfo(FC.deck); const t=todayKey(); const day=S.cardDay[t]||{rev:0,new:0,again:0};
+  const decks=[['all','All'],['lesson','Lessons'],['interview','Interview'],['glossary','Glossary'],['mine','My cards']];
+  const c=FC.cur; const ivs=c?nextIntervals(c):[];
+  const lbl=n=>n===0?'now':n===1?'1 day':n+' days';
+  return `<h1>Flashcards</h1><p class="sub">Spaced repetition across your lessons, interview answers, glossary and your own cards. Cards come back just before you'd forget them.</p>
+  <div class="tabs">${decks.map(([k,l])=>`<button class="tab ${FC.deck===k?'active':''}" data-fdeck="${k}">${l}</button>`).join('')}</div>
+  <div class="grid g4" style="margin-bottom:16px">
+   <div class="card stat tile" style="--c:#e11d48"><div class="k">Due now</div><div class="v">${d.due.length}</div><div class="h">reviews waiting</div></div>
+   <div class="card stat tile" style="--c:#0ea5e9"><div class="k">New today</div><div class="v">${d.newToday.length}</div><div class="h">of ${S.settings.newPerDay} per day</div></div>
+   <div class="card stat tile" style="--c:#16a34a"><div class="k">Reviewed today</div><div class="v">${day.rev}</div><div class="h">${day.again} forgotten</div></div>
+   <div class="card stat tile" style="--c:#8b5cf6"><div class="k">In your deck</div><div class="v">${d.all.length}</div><div class="h">${Object.keys(S.cards).length} started</div></div>
+  </div>
+  ${c?`<div class="fcard" style="--c:${areaColor(c.area)}">
+    <div class="row" style="justify-content:space-between"><span class="pill" style="color:#fff;background:${areaColor(c.area)}">${esc(AREA_LABEL[c.area]||c.area)}</span><span class="muted" style="font-size:12.5px">${esc(c.src)} · ${FC.queue.length+1} left</span></div>
+    <div class="fq">${esc(c.q)}</div>
+    ${FC.shown?`<div class="fa">${esc(c.a)}</div>
+      <div class="rate">${['Again','Hard','Good','Easy'].map((l,i)=>`<button class="btn r${i}" data-rate="${i}"><b>${l}</b><small>${lbl(ivs[i])}</small><kbd>${i+1}</kbd></button>`).join('')}</div>`
+    :`<button class="btn primary big" id="fShow">Show answer <kbd>Space</kbd></button>
+      <div class="row" style="margin-top:10px"><button class="btn sm" id="fAsk">Ask the tutor about this</button></div>`}
+   </div>`
+  :`<div class="card empty"><h3>${FC.done?'Session complete — '+FC.done+' card'+(FC.done===1?'':'s')+' reviewed.':'Nothing due right now.'}</h3><p class="muted">New cards unlock as you progress through the daily lessons. Add your own with "Today I learned" on the Today page.</p><div class="row"><button class="btn primary" id="fAgain">Check for more cards</button><button class="btn" data-view="today">Back to Today</button></div></div>`}
+  ${FC.deck==='mine'?tilList():''}`;
+}
+function tilList(){
+  return `<h2>My cards</h2>${(S.til||[]).length?(S.til.map(t=>`<div class="snip"><div class="row" style="justify-content:space-between"><b>${esc(t.q||'Today I learned')}</b><button class="btn sm danger" data-tildel="${t.id}">Delete</button></div><p style="margin:6px 0 0">${esc(t.text)}</p><span class="muted" style="font-size:12px">${esc(t.date)} · ${esc(AREA_LABEL[t.area]||'')}</span></div>`).join('')):'<p class="muted">No cards yet. Add one from the Today page.</p>'}`;
+}
+function bindCards(){
+  $$('[data-fdeck]').forEach(b=>b.onclick=()=>{ FC.deck=b.dataset.fdeck; FC.cur=null; FC.queue=[]; FC.done=0; render(); });
+  const sh=$('#fShow'); if(sh) sh.onclick=()=>{ FC.shown=true; render(); };
+  const ag=$('#fAgain'); if(ag) ag.onclick=()=>{ FC.done=0; FC.cur=null; FC.queue=[]; render(); };
+  const fa=$('#fAsk'); if(fa) fa.onclick=()=>openTutor('Help me understand this flashcard without just giving the answer — give me a hint first, then explain.\n\nQUESTION: '+FC.cur.q);
+  $$('[data-rate]').forEach(b=>b.onclick=()=>doRate(+b.dataset.rate));
+  $$('[data-tildel]').forEach(b=>b.onclick=async()=>{ if(!(await askConfirm('Delete this card?','Delete'))) return; S.til=S.til.filter(t=>t.id!==b.dataset.tildel); delete S.cards['my_'+b.dataset.tildel]; save(); render(); });
+}
+function doRate(g){ const c=FC.cur; if(!c) return; rateCard(c,g); FC.done++; if(g===0) FC.queue.push(c); FC.cur=FC.queue.shift()||null; FC.shown=false; render(); checkBadges(); }
+document.addEventListener('keydown',e=>{
+  if(view!=='cards' || !FC.cur) return; const tag=(e.target.tagName||''); if(tag==='TEXTAREA'||tag==='INPUT') return;
+  if(e.code==='Space' && !FC.shown){ e.preventDefault(); FC.shown=true; render(); }
+  else if(FC.shown && ['1','2','3','4'].includes(e.key)){ e.preventDefault(); doRate(+e.key-1); }
+});
+
+/* ---------------- WEAK SPOTS ---------------- */
+function areaSkill(a){
+  ensureState(); const parts=[];
+  const fc=S.areaScore[a]; if(fc && fc.n>=3) parts.push(fc.fc);
+  const ms=S.mockTopic[a]; if(ms && ms.length) parts.push(ms.slice(-5).reduce((x,y)=>x+y,0)/Math.min(5,ms.length)/10);
+  if(MODS[a]){ const ex=CURR.filter(w=>w.mod===a).flatMap(w=>w.items).filter(i=>i.type==='exam'&&S.scores[i.id]!=null).map(i=>S.scores[i.id]/100); if(ex.length) parts.push(ex.reduce((x,y)=>x+y,0)/ex.length);
+    const cd=currentDay()||0; const due=LESSONS.map((L,i)=>[L,i+1]).filter(([L,n])=>L.m===a&&n<=cd); if(due.length) parts.push(due.filter(([L,n])=>S.lessons[n]).length/due.length); }
+  else { const t=IV_TOPICS.find(x=>x.id===a); if(t){ const sc=t.scen; const cov=((S.ivRead&&S.ivRead[a])?0.5:0)+(sc.length?0.5*sc.filter(id=>S.ivDone&&S.ivDone[id]).length/sc.length:0); if(cov>0) parts.push(cov); } }
+  if(!parts.length) return null;
+  return Math.round(parts.reduce((x,y)=>x+y,0)/parts.length*100);
+}
+function weakSpots(){
+  const areas=['dc','rc','af',...IV_TOPICS.map(t=>t.id)];
+  const rows=areas.map(a=>({a,score:areaSkill(a)}));
+  const known=rows.filter(r=>r.score!=null).sort((x,y)=>x.score-y.score);
+  const unknown=rows.filter(r=>r.score==null);
+  return {known, unknown};
+}
+function weakHtml(limit){
+  const w=weakSpots(); const list=w.known.slice(0,limit||6);
+  if(!list.length) return `<p class="muted">Review flashcards, take a weekly exam or a mock interview and your weakest areas will appear here.</p>`;
+  return `<div class="weak">${list.map(r=>`<div class="wrow" style="--c:${areaColor(r.a)}"><span class="wl">${esc(AREA_LABEL[r.a])}</span><span class="wbar"><i style="width:${r.score}%"></i></span><b class="wv">${r.score}</b><button class="btn sm" data-revise="${r.a}">Revise</button></div>`).join('')}</div>${w.unknown.length?`<p class="muted" style="font-size:12.5px;margin-top:8px">Not assessed yet: ${w.unknown.slice(0,8).map(r=>esc(AREA_LABEL[r.a])).join(', ')}${w.unknown.length>8?'…':''}</p>`:''}`;
+}
+function bindRevise(){
+  $$('[data-revise]').forEach(b=>b.onclick=()=>{ const a=b.dataset.revise; if(MODS[a]){ const cd=currentDay()||1; let n=0; LESSONS.forEach((L,i)=>{ if(L.m===a && i+1<=Math.max(cd,7) ) n=i+1; }); window._lopen=n||LESSONS.findIndex(L=>L.m===a)+1; go('lessons'); } else { ivTopic=a; ivScen=null; go('interview'); } });
+}
+
+/* ---------------- TODAY ---------------- */
+function drillOfDay(){
+  const qs=IV_TOPICS.flatMap(t=>t.qa.map((qa,i)=>({t,qa,i})));
+  const w=weakSpots().known.filter(r=>!MODS[r.a]).map(r=>r.a);
+  const pool = w.length ? qs.filter(x=>w.slice(0,3).includes(x.t.id)) : qs;
+  const seed=[...todayKey()].reduce((s,ch)=>s*31+ch.charCodeAt(0)>>>0,7);
+  return pool[seed%pool.length];
+}
+function nextJob(){ const now=Date.now(); return (S.jobs||[]).filter(j=>j.nextAt && new Date(j.nextAt).getTime()>now).sort((a,b)=>new Date(a.nextAt)-new Date(b.nextAt))[0]; }
+function nextCert(){ const t=todayKey(); return (S.certs||[]).filter(c=>c.date && c.date>=t && c.status!=='Passed').sort((a,b)=>a.date.localeCompare(b.date))[0]; }
+function daysUntil(dateStr){ const d=new Date(dateStr+'T00:00:00'), t=new Date(); t.setHours(0,0,0,0); return Math.round((d-t)/86400000); }
+function greeting(){ const h=new Date().getHours(); return h<12?'Good morning':h<18?'Good afternoon':'Good evening'; }
+function vToday(){
+  ensureState(); const cd=currentDay(); const t=todayKey();
+  const L=cd?LESSONS[cd-1]:null; const fcs=dueInfo('all'); const fcLeft=fcs.due.length+fcs.newToday.length;
+  const dr=drillOfDay(); const un=allUpdates().filter(u=>!S.updRead[u.id]);
+  const plan=[
+    ['lesson', L?'Today\'s lesson: '+L.t:'Start your 84-day plan', !!(cd&&S.lessons[cd]), cd?'lessons':'dash'],
+    ['cards', fcLeft?fcLeft+' flashcards to review':'Flashcards — all caught up', fcLeft===0 && ((S.cardDay[t]||{}).rev||0)>0, 'cards'],
+    ['drill', 'Interview drill of the day', !!S.drill[t], null],
+    ['updates', un.length?un.length+' Salesforce updates to read':'Salesforce updates — all read', un.length===0, 'updates'],
+    ['time', 'Study '+(isWeekend()?S.settings.weekendH:S.settings.weekdayH)+' h', todaySec()>=targetSec(), null]
+  ];
+  const doneN=plan.filter(p=>p[2]).length;
+  const job=nextJob(), cert=nextCert();
+  const reps=(window.REPORTS||[]);
+  return `<div class="hello"><div><h1>${greeting()}</h1><p class="sub" style="margin:0">${new Date().toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'})}${cd?` · Day ${cd} of ${LESSONS.length}`:''} · ${doneN}/${plan.length} of today's plan done</p></div>
+   <div class="mini-timer"><span class="clock" id="tClock">${fmt(todaySec())}</span><div class="row"><button class="btn primary" id="tToggle">${S.timer.running?'Pause':'Start'}</button><button class="btn" id="focusBtn">Focus mode</button></div></div></div>
+  <div class="today-grid">
+   <div class="card span2"><div class="stat"><div class="k">Today's plan</div></div>
+    ${plan.map(([k,l,done,v])=>`<div class="item ${done?'done':''}"><span class="tick ${done?'on':''}" aria-hidden="true"></span><span class="txt">${esc(l)}</span>${v?`<button class="btn sm" data-view="${v}">Open</button>`:''}</div>`).join('')}
+   </div>
+   <div class="card tile" style="--c:#e11d48"><div class="stat"><div class="k">Flashcards</div><div class="v">${fcLeft}</div><div class="h">${fcs.due.length} due · ${fcs.newToday.length} new</div></div><button class="btn primary" data-view="cards" style="margin-top:10px">Start review</button></div>
+   ${L?`<div class="card tile" style="--c:${MODS[L.m].color}"><div class="stat"><div class="k">Today's lesson · Day ${cd}</div></div><h3 style="margin:6px 0">${esc(L.t)}</h3><p class="muted" style="margin:0 0 10px">${esc(L.c[0].slice(0,140))}…</p><button class="btn primary" id="openLesson">Read lesson</button></div>`:`<div class="card"><div class="stat"><div class="k">Your plan</div></div><p>Start the 84-day plan to unlock daily lessons and flashcards.</p><button class="btn primary" id="startPlan2">Start today</button></div>`}
+   <div class="card span2 tile" style="--c:${areaColor(dr.t.id)}"><div class="row" style="justify-content:space-between"><div class="stat"><div class="k">Interview drill of the day</div></div><span class="pill">${esc(dr.t.title)}</span></div>
+    <p class="drillq">${esc(dr.qa[0])}</p>
+    <details class="qa"><summary>Answer out loud first, then reveal the model answer</summary><div>${esc(dr.qa[1])}</div></details>
+    <div class="row" style="margin-top:8px"><button class="btn ${S.drill[t]?'':'primary'}" id="drillDone">${S.drill[t]?'Practised ✓':'Mark practised'}</button><button class="btn" id="drillMock">Mock-interview me on this</button></div></div>
+   <div class="card"><div class="stat"><div class="k">Weak spots</div></div>${weakHtml(4)}</div>
+   <div class="card"><div class="stat"><div class="k">Coming up</div></div>
+    ${job?`<div class="cd"><b>${Math.max(0,daysUntil(job.nextAt.slice(0,10)))}</b><span>days to <b>${esc(job.company)}</b> — ${esc(job.stage)}<br><span class="muted">${new Date(job.nextAt).toLocaleString(undefined,{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</span></span></div>`:''}
+    ${cert?`<div class="cd"><b>${daysUntil(cert.date)}</b><span>days to <b>${esc(cert.name)}</b><br><span class="muted">readiness ${certReady(cert)}%</span></span></div>`:''}
+    ${!job&&!cert?'<p class="muted">Add interviews in Career → Jobs and exams in Career → Certifications to see countdowns here.</p>':''}
+    <button class="btn sm" data-view="career">Open Career</button></div>
+   <div class="card"><div class="stat"><div class="k">Today I learned</div></div>
+    <label class="f" for="tilText">One thing you learned (becomes a flashcard)</label><textarea id="tilText" class="plain" style="min-height:70px" placeholder="e.g. Streaming insights only work on streaming sources such as the Ingestion API."></textarea>
+    <label class="f" for="tilQ">Question to test yourself (optional)</label><input type="text" id="tilQ" placeholder="e.g. Why can't file uploads feed a streaming insight?">
+    <div class="row" style="margin-top:8px"><select id="tilArea" style="width:auto">${Object.entries(AREA_LABEL).map(([k,v])=>`<option value="${k}" ${L&&L.m===k?'selected':''}>${esc(v)}</option>`).join('')}</select><button class="btn primary" id="tilAdd">Add card</button></div></div>
+   <div class="card"><div class="stat"><div class="k">New updates</div></div>${un.slice(0,3).map(u=>`<div style="padding:6px 0;border-top:1px dashed var(--line)"><span class="pill ucl-${esc(u.cloud)}">${esc(UPD_CLOUDS[u.cloud]||u.cloud)}</span><div style="font-weight:600;margin-top:3px">${esc(u.title)}</div></div>`).join('')||'<p class="muted">All read.</p>'}<button class="btn sm" data-view="updates" style="margin-top:8px">Open updates</button></div>
+   <div class="card span2"><div class="stat"><div class="k">This week</div></div>${weekSummaryHtml()}</div>
+   <div class="card span2"><div class="stat"><div class="k">Badges · ${Object.keys(S.badges).length}/${BADGES.length}</div></div><div class="badges">${BADGES.map(b=>`<div class="badge-i ${S.badges[b.id]?'on':''}" title="${esc(b.desc)}"><span>${b.icon}</span><b>${esc(b.name)}</b><small>${S.badges[b.id]?esc(S.badges[b.id]):esc(b.desc)}</small></div>`).join('')}</div></div>
+   ${reps.length?`<div class="card span2"><div class="stat"><div class="k">Latest weekly report · ${esc(reps[0].date)}</div></div><div class="reading" style="white-space:pre-wrap">${esc(reps[0].text||'')}</div></div>`:''}
+  </div>`;
+}
+function weekSummaryHtml(){
+  let secs=0, target=0, reviews=0; for(let i=0;i<7;i++){ const d=addDays(new Date(),-i); secs+=daySec(dkey(d)); target+=targetSec(d); reviews+=((S.cardDay||{})[dkey(d)]||{}).rev||0; }
+  const wkAgo=dkey(addDays(new Date(),-6)); const mocks=(S.mocks||[]).filter(m=>m.date>=wkAgo).length;
+  const pct=target?Math.round(secs/target*100):0;
+  return `<div class="wk-sum"><div><b>${hrs(secs)} h</b><span>of ${hrs(target)} h target (${pct}%)</span></div><div><b>${streak()}</b><span>day streak</span></div><div><b>${reviews}</b><span>cards reviewed</span></div><div><b>${mocks}</b><span>mock interviews</span></div><div><b>${Object.values(S.drill||{}).length}</b><span>drills all-time</span></div></div>`;
+}
+function bindToday(){
+  const tt=$('#tToggle'); if(tt) tt.onclick=()=>{ toggleTimer(); tt.textContent=S.timer.running?'Pause':'Start'; };
+  const ol=$('#openLesson'); if(ol) ol.onclick=()=>{ window._lopen=currentDay(); go('lessons'); };
+  const sp=$('#startPlan2'); if(sp) sp.onclick=()=>{ S.settings.startDate=dkey(); save(); toast('Plan started — Day 1 today'); render(); };
+  const dd=$('#drillDone'); if(dd) dd.onclick=()=>{ S.drill[todayKey()]=drillOfDay().t.id; save(); render(); checkBadges(); };
+  const dm=$('#drillMock'); if(dm) dm.onclick=()=>{ const d=drillOfDay(); openTutor('Act as a Salesforce interviewer. Ask me this question, wait for my answer, then score it out of 10 and tell me what a strong answer adds.\n\nQUESTION: '+d.qa[0]); };
+  const ta=$('#tilAdd'); if(ta) ta.onclick=()=>{ const text=$('#tilText').value.trim(); if(!text){ toast('Write what you learned first'); return; } S.til.unshift({id:uid(), date:todayKey(), text, q:$('#tilQ').value.trim(), area:$('#tilArea').value}); save(); toast('Added to your flashcards'); render(); checkBadges(); };
+  const fb=$('#focusBtn'); if(fb) fb.onclick=openFocus;
+  bindRevise();
+}
+function toggleTimer(){ if(S.timer.running){ commitTimer(); S.timer.running=false; } else { S.timer={running:true,since:Date.now(),date:dkey()}; } save(); }
+setInterval(()=>{ const c=document.getElementById('tClock'); if(c) c.textContent=fmt(todaySec()); },1000);
+
+/* ---------------- FOCUS MODE (Pomodoro) ---------------- */
+const FOCUS={on:false, phase:'work', left:0, t:null, cycles:0};
+function openFocus(){ $('#focus').hidden=false; if(!FOCUS.on) startFocus('work'); renderFocus(); }
+function startFocus(phase){
+  FOCUS.on=true; FOCUS.phase=phase; FOCUS.left=(phase==='work'?S.settings.focusWork:S.settings.focusBreak)*60;
+  if(phase==='work' && !S.timer.running) toggleTimer();
+  if(phase==='break' && S.timer.running) toggleTimer();
+  clearInterval(FOCUS.t); FOCUS.t=setInterval(()=>{ FOCUS.left--; if(FOCUS.left<=0){ beep(); if(FOCUS.phase==='work'){ FOCUS.cycles++; toast('Focus block done — take a break'); startFocus('break'); } else { toast('Break over — next focus block'); startFocus('work'); } } renderFocus(); },1000);
+}
+function stopFocus(){ clearInterval(FOCUS.t); FOCUS.on=false; if(S.timer.running) toggleTimer(); $('#focus').hidden=true; render(); }
+function renderFocus(){ const el=$('#focusClock'); if(!el) return; const m=Math.floor(FOCUS.left/60), s=FOCUS.left%60; el.textContent=m+':'+String(s).padStart(2,'0'); $('#focusPhase').textContent=FOCUS.phase==='work'?'Focus':'Break'; $('#focus').dataset.phase=FOCUS.phase; $('#focusCycles').textContent=FOCUS.cycles+' block'+(FOCUS.cycles===1?'':'s')+' done today · '+fmt(todaySec())+' studied'; }
+let AC=null; function beep(){ try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); const o=AC.createOscillator(), g=AC.createGain(); o.frequency.value=880; g.gain.value=0.08; o.connect(g); g.connect(AC.destination); o.start(); o.stop(AC.currentTime+0.35); }catch(e){} }
+function bindFocus(){ $('#focusStop').onclick=stopFocus; $('#focusSkip').onclick=()=>{ startFocus(FOCUS.phase==='work'?'break':'work'); renderFocus(); }; $('#focusHide').onclick=()=>{ $('#focus').hidden=true; }; }
+
+/* ---------------- BADGES ---------------- */
+const BADGES=[
+ {id:'first-lesson', name:'First lesson', icon:'📘', desc:'Complete a daily lesson', test:()=>Object.values(S.lessons).some(Boolean)},
+ {id:'streak7', name:'7-day streak', icon:'🔥', desc:'Study 7 days in a row', test:()=>streak()>=7},
+ {id:'streak30', name:'30-day streak', icon:'🏆', desc:'Study 30 days in a row', test:()=>streak()>=30},
+ {id:'hours10', name:'10 hours', icon:'⏱️', desc:'Log 10 study hours', test:()=>totalSec()>=36000},
+ {id:'hours100', name:'100 hours', icon:'💯', desc:'Log 100 study hours', test:()=>totalSec()>=360000},
+ {id:'cards100', name:'100 reviews', icon:'🧠', desc:'Review 100 flashcards', test:()=>Object.values(S.cardDay||{}).reduce((s,d)=>s+(d.rev||0),0)>=100},
+ {id:'first-mock', name:'First mock', icon:'🎤', desc:'Finish a mock interview', test:()=>(S.mocks||[]).length>0},
+ {id:'mock8', name:'Interview ready', icon:'⭐', desc:'Score 8+ in a mock interview', test:()=>(S.mocks||[]).some(m=>m.overall>=8)},
+ {id:'scen5', name:'Live coder', icon:'💻', desc:'Complete 5 coding scenarios', test:()=>Object.values(S.ivDone||{}).filter(Boolean).length>=5},
+ {id:'star3', name:'Storyteller', icon:'📖', desc:'Write 3 STAR stories', test:()=>(S.stars||[]).length>=3},
+ {id:'p1', name:'Data 360 builder', icon:'🧩', desc:'Finish Project 1 steps', test:()=>GSTEPS.p1.every(i=>S.guide[i])},
+ {id:'apply', name:'In the market', icon:'🚀', desc:'Track your first job application', test:()=>(S.jobs||[]).some(j=>j.stage!=='Wishlist')}
+];
+let badgeT=null;
+function checkBadges(){ clearTimeout(badgeT); badgeT=setTimeout(()=>{ ensureState(); let got=[]; BADGES.forEach(b=>{ if(!S.badges[b.id]){ let ok=false; try{ ok=b.test(); }catch(e){} if(ok){ S.badges[b.id]=todayKey(); got.push(b); } } }); if(got.length){ save(); toast('Badge earned: '+got.map(b=>b.name).join(', ')); burst(window.innerWidth/2, window.innerHeight/2); if(view==='today') rerenderKeepScroll(); } },400); }
+
+/* ---------------- MOCK INTERVIEW ---------------- */
+let MOCK=null; // active session
+function pickWeighted(items, weightFn, n){ const pool=[...items], out=[]; while(out.length<n && pool.length){ const ws=pool.map(weightFn), tot=ws.reduce((a,b)=>a+b,0); let r=Math.random()*tot, i=0; while(i<pool.length-1 && (r-=ws[i])>0) i++; out.push(pool.splice(i,1)[0]); } return out; }
+function buildMock(focus, mins){
+  const weight=a=>{ const s=areaSkill(a); return s==null?1.2:1+(100-s)/40; };
+  const items=[{kind:'intro', topic:null, q:'Tell me about yourself, and a recent Salesforce project you are proud of.', model:'Keep it to 90 seconds: current role and context; 1–2 projects with your specific contribution, tech and a measurable result; why this role. Close by linking your skills to the job.'}];
+  let tech=[];
+  if(focus!=='clouds'){ const qs=IV_TOPICS.filter(t=>focus==='all'||focus==='core'||t.id===focus).flatMap(t=>t.qa.map(qa=>({t:t.id,qa}))); tech.push(...pickWeighted(qs, x=>weight(x.t), focus==='clouds'?0:(focus==='all'?3:5))); }
+  if(focus==='all'||focus==='clouds'){ const ls=LESSONS.map((L,i)=>({L,n:i+1})).filter(x=>['dc','rc','af'].includes(x.L.m) && x.L.min===150).flatMap(x=>x.L.q.map(qa=>({t:x.L.m,qa}))); tech.push(...pickWeighted(ls, x=>weight(x.t), focus==='clouds'?5:2)); }
+  tech.forEach(x=>items.push({kind:'tech', topic:x.t, q:x.qa[0], model:x.qa[1]}));
+  const code=IV_SCENARIOS.filter(s=>s.files && (focus==='all'||focus==='core'||focus==='clouds'||s.topic===focus));
+  const design=IV_SCENARIOS.filter(s=>!s.files);
+  const c=pickWeighted(code.length?code:IV_SCENARIOS.filter(s=>s.files), s=>(S.ivDone&&S.ivDone[s.id]?0.5:1.5)*weight(s.topic),1)[0];
+  const d=pickWeighted(design, s=>weight(s.topic),1)[0];
+  if(c) items.push({kind:'code', topic:c.topic, q:c.title+' — '+c.prompt, model:c.talk+' (Reference solution: scenario '+c.id+' in Interview Prep.)', scen:c.id});
+  if(d) items.push({kind:'design', topic:d.topic, q:d.title+' — '+d.prompt, model:plain(d.solution||d.talk), scen:d.id});
+  return {id:uid(), date:todayKey(), started:Date.now(), focus, mins, idx:0, items:items.map(x=>Object.assign(x,{answer:''}))};
+}
+function vMock(){
+  ensureState();
+  if(MOCK && MOCK.result) return mockResultHtml(MOCK);
+  if(MOCK) return mockRunHtml();
+  const hist=(S.mocks||[]);
+  const opts=[['all','Mixed (core + clouds)'],['core','Core platform'],['clouds','Data 360 · Revenue · Agentforce'],...IV_TOPICS.map(t=>[t.id,t.title])];
+  return `<h1>Mock Interview</h1><p class="sub">A realistic timed interview: introduction, technical questions weighted towards your weak spots, one live-coding task and one design question. Claude scores it and gives you a plan.</p>
+  <div class="grid g2"><div class="card"><div class="stat"><div class="k">New mock interview</div></div>
+   <label class="f" for="mFocus">Focus</label><select id="mFocus">${opts.map(([k,l])=>`<option value="${k}">${esc(l)}</option>`).join('')}</select>
+   <label class="f" for="mMins">Length</label><select id="mMins"><option value="30">30 minutes</option><option value="45" selected>45 minutes</option><option value="60">60 minutes</option></select>
+   <div class="row" style="margin-top:14px"><button class="btn primary" id="mStart">Start interview</button></div>
+   <p class="muted" style="font-size:13px;margin-top:10px">Tip: answer as you would speak — short paragraphs, examples, trade-offs. You can switch the tutor off; scoring happens at the end.</p></div>
+   <div class="card"><div class="stat"><div class="k">Your weak spots</div></div>${weakHtml(6)}</div></div>
+  <h2>History</h2>${hist.length?`<div class="card">${trendSvg(hist.slice().reverse().map(m=>m.overall))}${hist.map((m,i)=>`<div class="item"><span class="pill" style="color:#fff;background:${m.overall>=8?'var(--ok)':m.overall>=6?'var(--warn)':'#dc2626'}">${m.overall}/10</span><span class="txt">${esc(m.date)} · ${esc(m.focusLabel||m.focus)} · ${m.items.length} questions</span><button class="btn sm" data-mopen="${i}">Review</button></div>`).join('')}</div>`:'<p class="muted">No mock interviews yet.</p>'}`;
+}
+function trendSvg(vals){
+  if(vals.length<2) return '';
+  const W=600,H=120,p=24, x=i=>p+i*(W-2*p)/(vals.length-1), y=v=>H-p-(v/10)*(H-2*p);
+  const pts=vals.map((v,i)=>x(i)+','+y(v)).join(' ');
+  return `<div style="overflow-x:auto"><svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" role="img" aria-label="Mock interview score trend"><line x1="${p}" x2="${W-p}" y1="${y(8)}" y2="${y(8)}" stroke="var(--ok)" stroke-dasharray="4 4" opacity=".6"/><text x="${W-p}" y="${y(8)-4}" fill="var(--ok)" font-size="11" text-anchor="end">8 = ready</text><polyline points="${pts}" fill="none" stroke="var(--vc)" stroke-width="3" stroke-linejoin="round"/>${vals.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="${i===vals.length-1?6:4}" fill="var(--vc)"/>`).join('')}</svg></div>`;
+}
+function mockRunHtml(){
+  const m=MOCK, it=m.items[m.idx]; const kinds={intro:'Introduction',tech:'Technical',code:'Live coding',design:'Design'};
+  const left=Math.max(0, m.mins*60-Math.floor((Date.now()-m.started)/1000));
+  return `<div class="row" style="justify-content:space-between"><h1 style="margin:0">Mock interview</h1><span class="clock mclock" id="mClock">${fmt(left).replace(/^0:/,'')}</span></div>
+  <div class="msteps">${m.items.map((x,i)=>`<button class="mstep ${i===m.idx?'on':''} ${x.answer.trim()?'ans':''}" data-mgo="${i}" title="${kinds[x.kind]}">${i+1}</button>`).join('')}</div>
+  <div class="card mq"><div class="row"><span class="pill">${kinds[it.kind]}</span>${it.topic?`<span class="pill" style="color:#fff;background:${areaColor(it.topic)}">${esc(AREA_LABEL[it.topic]||it.topic)}</span>`:''}<span class="muted" style="margin-left:auto">Question ${m.idx+1} of ${m.items.length}</span></div>
+   <p class="drillq">${esc(it.q)}</p>
+   <label class="f" for="mAns">Your answer${it.kind==='code'?' (write code or pseudo-code and explain your approach)':''}</label>
+   <textarea id="mAns" class="big" style="${it.kind==='code'?'':'font-family:inherit;font-size:15px'}" placeholder="Answer as you would in the interview…">${esc(it.answer)}</textarea>
+   <div class="row" style="margin-top:10px"><button class="btn" id="mPrev" ${m.idx===0?'disabled':''}>← Previous</button><button class="btn primary" id="mNext">${m.idx===m.items.length-1?'Finish & score':'Next →'}</button><button class="btn danger" id="mQuit" style="margin-left:auto">Abandon</button></div></div>`;
+}
+let mockTimerT=null;
+function bindMock(){
+  const st=$('#mStart'); if(st) st.onclick=()=>{ const f=$('#mFocus'); MOCK=buildMock(f.value, +$('#mMins').value); MOCK.focusLabel=f.options[f.selectedIndex].text; S.mockDraft=MOCK; save({localOnly:true}); render(); };
+  $$('[data-mopen]').forEach(b=>b.onclick=()=>{ MOCK=Object.assign({},S.mocks[+b.dataset.mopen]); MOCK.result=true; render(); });
+  if(!MOCK || MOCK.result){ clearInterval(mockTimerT); bindMockResult(); return; }
+  const a=$('#mAns'); const keep=()=>{ if(a){ MOCK.items[MOCK.idx].answer=a.value; S.mockDraft=MOCK; save({localOnly:true}); } };
+  if(a) a.oninput=debounce(keep,500);
+  $$('[data-mgo]').forEach(b=>b.onclick=()=>{ keep(); MOCK.idx=+b.dataset.mgo; render(); });
+  $('#mPrev').onclick=()=>{ keep(); MOCK.idx--; render(); };
+  $('#mNext').onclick=()=>{ keep(); if(MOCK.idx<MOCK.items.length-1){ MOCK.idx++; render(); } else finishMock(); };
+  $('#mQuit').onclick=async()=>{ if(await askConfirm('Abandon this mock interview? Your answers will be discarded.','Abandon')){ MOCK=null; S.mockDraft=null; save(); render(); } };
+  clearInterval(mockTimerT); mockTimerT=setInterval(()=>{ const c=$('#mClock'); if(!c||!MOCK||MOCK.result){ clearInterval(mockTimerT); return; } const left=Math.max(0,MOCK.mins*60-Math.floor((Date.now()-MOCK.started)/1000)); c.textContent=fmt(left).replace(/^0:/,''); c.classList.toggle('late',left<300); if(left===0){ clearInterval(mockTimerT); toast('Time is up — finish your answer and score the interview'); } },1000);
+}
+async function finishMock(){
+  const m=MOCK; const unanswered=m.items.filter(x=>!x.answer.trim()).length;
+  if(unanswered && !(await askConfirm(unanswered+' question(s) have no answer. Score anyway?','Score now'))) return;
+  m.result=true; m.scoring=true; m.durationMin=Math.round((Date.now()-m.started)/60000); render();
+  const prompt=`You are a senior Salesforce technical interviewer. Score this mock interview strictly but fairly. For each item compare the candidate's answer with the reference notes (the reference is guidance, not the only correct answer). Unanswered items score 0.
+Reply with only JSON: {"overall": number 0-10 (one decimal), "items":[{"score": integer 0-10, "feedback": "2-3 sentences: what was good, what was missing, how to improve"}], "strengths":["..."], "gaps":["..."], "plan":["3-5 concrete next steps"]}. The items array must have exactly ${m.items.length} entries in order.
+
+${m.items.map((x,i)=>`ITEM ${i+1} (${x.kind}${x.topic?', '+(AREA_LABEL[x.topic]||x.topic):''})
+QUESTION: ${x.q}
+REFERENCE: ${String(x.model).slice(0,1500)}
+ANSWER: ${x.answer.trim().slice(0,4000)||'(no answer)'}`).join('\n\n')}`;
+  try{
+    const r=await askJson(prompt,{modelTier:'default'});
+    if(!r || !Array.isArray(r.items)) throw {code:'invalid_json'};
+    m.items.forEach((x,i)=>{ const s=r.items[i]||{}; x.score=Math.max(0,Math.min(10,Math.round(+s.score||0))); x.feedback=String(s.feedback||''); });
+    m.overall=Math.round((+r.overall||m.items.reduce((s,x)=>s+x.score,0)/m.items.length)*10)/10;
+    m.strengths=(r.strengths||[]).map(String).slice(0,6); m.gaps=(r.gaps||[]).map(String).slice(0,6); m.plan=(r.plan||[]).map(String).slice(0,6); m.mode='ai';
+    commitMock(m);
+  }catch(e){ m.scoring=false; m.mode='self'; m.aiError=aiErr(e); render(); }
+}
+function commitMock(m){
+  m.scoring=false; delete m.idx;
+  m.items.forEach(x=>{ if(x.topic && x.score!=null){ (S.mockTopic[x.topic]=S.mockTopic[x.topic]||[]).push(x.score); S.mockTopic[x.topic]=S.mockTopic[x.topic].slice(-10); } });
+  const rec={id:m.id,date:m.date,focus:m.focus,focusLabel:m.focusLabel,mins:m.mins,durationMin:m.durationMin,overall:m.overall,strengths:m.strengths||[],gaps:m.gaps||[],plan:m.plan||[],mode:m.mode,items:m.items.map(x=>({kind:x.kind,topic:x.topic,q:x.q,model:x.model,answer:x.answer,score:x.score,feedback:x.feedback||'',scen:x.scen}))};
+  S.mocks=[rec,...(S.mocks||[])].slice(0,20); S.mockDraft=null; save(); MOCK=Object.assign({},rec,{result:true}); render(); burst(window.innerWidth/2,200); checkBadges();
+}
+function mockResultHtml(m){
+  if(m.scoring) return `<h1>Scoring your interview…</h1><div class="card"><p>Claude is reviewing ${m.items.length} answers. This usually takes 20–60 seconds.</p><div class="bar"><i class="indet"></i></div></div>`;
+  if(m.mode==='self' && m.overall==null) return `<h1>Score it yourself</h1><p class="sub">${esc(m.aiError||'')} Compare each answer with the reference and give yourself a score.</p>
+   ${m.items.map((x,i)=>`<div class="card" style="margin-bottom:10px"><b>${i+1}. ${esc(x.q)}</b><p class="muted" style="margin:6px 0">Your answer: ${esc(x.answer||'(none)')}</p><div class="iv"><b>Reference</b><p>${esc(x.model)}</p></div><label class="f" for="ss${i}">Score (0–10)</label><input type="number" min="0" max="10" id="ss${i}" data-ss="${i}" value="${x.score??''}" style="width:90px"></div>`).join('')}
+   <div class="row"><button class="btn primary" id="ssSave">Save scores</button><button class="btn" id="ssRetry">Try AI scoring again</button></div>`;
+  return `<button class="btn sm" id="mBack">← Mock interviews</button>
+  <h1 style="margin-top:14px">Scorecard · ${m.overall}/10</h1><p class="sub">${esc(m.date)} · ${esc(m.focusLabel||m.focus)}${m.durationMin?' · '+m.durationMin+' min':''}${m.mode==='self'?' · self-scored':''}</p>
+  ${m.mode==='self'?'<div class="callout info">Self-scored. Open the page inside Claude and run a mock to get AI feedback, strengths, gaps and a plan.</div>':''}
+  <div class="grid g3" ${m.mode==='self'?'hidden':''}>
+   <div class="card tile" style="--c:var(--ok)"><div class="stat"><div class="k">Strengths</div></div><ul>${(m.strengths||[]).map(s=>'<li>'+esc(s)+'</li>').join('')||'<li class="muted">—</li>'}</ul></div>
+   <div class="card tile" style="--c:#dc2626"><div class="stat"><div class="k">Gaps</div></div><ul>${(m.gaps||[]).map(s=>'<li>'+esc(s)+'</li>').join('')||'<li class="muted">—</li>'}</ul></div>
+   <div class="card tile" style="--c:var(--vc)"><div class="stat"><div class="k">Your plan</div></div><ol>${(m.plan||[]).map(s=>'<li>'+esc(s)+'</li>').join('')||'<li class="muted">—</li>'}</ol></div>
+  </div>
+  <h2>Question by question</h2>
+  ${m.items.map((x,i)=>`<details class="qa mres"><summary><span class="pill" style="color:#fff;background:${x.score>=8?'var(--ok)':x.score>=5?'var(--warn)':'#dc2626'}">${x.score??'–'}/10</span> ${i+1}. ${esc(x.q.slice(0,140))}${x.q.length>140?'…':''}</summary><div style="color:inherit"><p><b>Your answer</b><br>${esc(x.answer||'(no answer)')}</p>${x.feedback?`<p><b>Feedback</b><br>${esc(x.feedback)}</p>`:''}<div class="iv"><b>Reference</b><p>${esc(x.model)}</p></div>${x.scen?`<button class="btn sm" data-goscen="${x.scen}">Open scenario ${x.scen}</button>`:''}</div></details>`).join('')}`;
+}
+function bindMockResult(){
+  const b=$('#mBack'); if(b) b.onclick=()=>{ MOCK=null; render(); };
+  const ss=$('#ssSave'); if(ss) ss.onclick=()=>{ MOCK.items.forEach((x,i)=>{ const v=$('#ss'+i).value; x.score=v===''?0:Math.max(0,Math.min(10,+v)); }); MOCK.overall=Math.round(MOCK.items.reduce((s,x)=>s+x.score,0)/MOCK.items.length*10)/10; commitMock(MOCK); };
+  const rr=$('#ssRetry'); if(rr) rr.onclick=()=>finishMock();
+  $$('[data-goscen]').forEach(el=>el.onclick=()=>{ ivScen=el.dataset.goscen; go('interview'); });
+}
+
+/* ---------------- CAREER: STAR · Jobs · JD matcher · Certifications ---------------- */
+let careerTab='stories', starEdit=null, jobEdit=null;
+const COMPETENCIES=['Technical challenge','Ownership','Impact / results','Collaboration','Conflict','Failure / learning','Leadership','Customer focus','Ambiguity','Delivery under pressure'];
+const STAGES=['Wishlist','Applied','Screening','Technical','Final','Offer','Rejected'];
+const CERT_SUGGEST=[
+ {name:'Salesforce Certified Platform Developer (formerly Platform Developer I)', areas:['apex','triggers','async','soql','testing','lwc','flows','security']},
+ {name:'Salesforce Certified Platform Developer II', areas:['apex','async','integration','lwc','testing','events']},
+ {name:'Salesforce Certified Data 360 Consultant (formerly Data Cloud Consultant)', areas:['dc']},
+ {name:'Salesforce Certified Agentforce Specialist', areas:['af']},
+ {name:'Salesforce Certified Revenue Management Consultant (formerly Revenue Cloud Consultant)', areas:['rc','cpq']},
+ {name:'Salesforce Certified Agentforce Sales Consultant (formerly Sales Cloud Consultant)', areas:['sales']},
+ {name:'Salesforce Certified Agentforce Service Consultant (formerly Service Cloud Consultant)', areas:['service']},
+ {name:'Salesforce Certified Platform Integration Architect', areas:['integration','events','security']},
+ {name:'Salesforce Certified CPQ Administrator (retires 1 Feb 2027)', areas:['cpq']}
+];
+function certReady(c){ const s=(c.areas||[]).map(areaSkill).filter(v=>v!=null); return s.length?Math.round(s.reduce((a,b)=>a+b,0)/s.length):0; }
+function vCareer(){
+  ensureState();
+  const tabs=[['stories','STAR stories'],['jobs','Jobs'],['match','Job match'],['certs','Certifications']];
+  let body='';
+  if(careerTab==='stories') body=starHtml(); else if(careerTab==='jobs') body=jobsHtml(); else if(careerTab==='match') body=matchHtml(null); else body=certsHtml();
+  return `<h1>Career</h1><p class="sub">Behavioural stories, applications, job-description fit and certifications — everything for the job hunt in one place.</p>
+  <div class="tabs">${tabs.map(([k,l])=>`<button class="tab ${careerTab===k?'active':''}" data-ctab="${k}">${l}</button>`).join('')}</div>${body}`;
+}
+function starHtml(){
+  const st=S.stars;
+  if(starEdit){ const s=starEdit; return `<div class="card"><div class="row" style="justify-content:space-between"><div class="stat"><div class="k">${st.find(x=>x.id===s.id)?'Edit story':'New story'}</div></div><button class="btn sm" id="starCancel">Close</button></div>
+   <label class="f" for="sTitle">Title</label><input type="text" id="sTitle" value="${esc(s.title||'')}" placeholder="e.g. Unifying fragmented customer data across three systems">
+   <label class="f">Competencies</label><div class="chips">${COMPETENCIES.map(c=>`<label class="chip"><input type="checkbox" data-comp="${esc(c)}" ${(s.tags||[]).includes(c)?'checked':''}> ${esc(c)}</label>`).join('')}</div>
+   <label class="f" for="sProj">Project or role</label><input type="text" id="sProj" value="${esc(s.project||'')}" placeholder="e.g. Project 1 · Data 360, or your current role">
+   ${['s','t','a','r'].map(k=>`<label class="f" for="s_${k}">${({s:'Situation — context and stakes',t:'Task — your responsibility',a:'Action — what YOU did (most of the story)',r:'Result — measurable outcome and what you learned'})[k]}</label><textarea id="s_${k}" style="font-family:inherit;font-size:14.5px;min-height:${k==='a'?140:80}px">${esc(s[k]||'')}</textarea>`).join('')}
+   <div class="row" style="margin-top:10px"><button class="btn primary" id="starSave">Save story</button><button class="btn" id="starPolish">Polish with tutor</button><button class="btn" id="starPractise">Practise this story</button>${st.find(x=>x.id===s.id)?'<button class="btn danger" id="starDel" style="margin-left:auto">Delete</button>':''}</div>
+   <div id="starOut"></div></div>`; }
+  const covered=new Set(st.flatMap(s=>s.tags||[]));
+  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><p class="muted" style="margin:0">Interviewers ask 2–4 behavioural questions per loop. Aim for 6–8 stories that cover every competency.</p><button class="btn primary" id="starNew">New story</button></div>
+  <div class="chips" style="margin-bottom:14px">${COMPETENCIES.map(c=>`<span class="chip ${covered.has(c)?'on':''}">${covered.has(c)?'✓ ':''}${esc(c)}</span>`).join('')}</div>
+  ${st.length?`<div class="grid g2">${st.map(s=>`<div class="card pcard tile" style="--c:#0284c7" data-star="${s.id}"><h3 style="margin:0 0 6px">${esc(s.title||'Untitled story')}</h3><div class="chips">${(s.tags||[]).map(t=>`<span class="chip on">${esc(t)}</span>`).join('')}</div><p class="muted" style="margin:8px 0 0">${esc((s.r||s.a||'').slice(0,140))}</p></div>`).join('')}</div>`
+  :`<div class="card empty"><h3>Start your story bank</h3><p>Good sources: a data pipeline you built (for example moving CRM data into a warehouse for dashboards or an AI agent), a production issue you resolved, a time you pushed back on a requirement, a project from this portfolio, or a time you learned a new technology fast.</p><button class="btn primary" id="starNew2">Write my first story</button></div>`}`;
+}
+function jobsHtml(){
+  if(jobEdit){ const j=jobEdit; const exists=S.jobs.find(x=>x.id===j.id); return `<div class="card"><div class="row" style="justify-content:space-between"><div class="stat"><div class="k">${exists?'Edit application':'New application'}</div></div><button class="btn sm" id="jobCancel">Close</button></div>
+   <div class="grid g2"><div><label class="f" for="jCo">Company</label><input type="text" id="jCo" value="${esc(j.company||'')}"></div><div><label class="f" for="jRole">Role</label><input type="text" id="jRole" value="${esc(j.role||'')}" placeholder="e.g. Salesforce Developer (Data Cloud)"></div>
+   <div><label class="f" for="jStage">Stage</label><select id="jStage">${STAGES.map(s=>`<option ${j.stage===s?'selected':''}>${s}</option>`).join('')}</select></div><div><label class="f" for="jNext">Next interview</label><input type="datetime-local" id="jNext" value="${esc(j.nextAt||'')}"></div>
+   <div><label class="f" for="jUrl">Job link</label><input type="url" id="jUrl" value="${esc(j.url||'')}"></div><div><label class="f" for="jLoc">Location / remote</label><input type="text" id="jLoc" value="${esc(j.location||'')}"></div></div>
+   <label class="f" for="jNotes">Notes (contacts, salary range, what they care about)</label><textarea id="jNotes" style="font-family:inherit;font-size:14px">${esc(j.notes||'')}</textarea>
+   <label class="f" for="jQs">Questions they asked (one per line — practise them later)</label><textarea id="jQs" style="font-family:inherit;font-size:14px">${esc((j.questions||[]).join('\n'))}</textarea>
+   <label class="f" for="jJd">Job description</label><textarea id="jJd" style="font-family:inherit;font-size:13.5px" placeholder="Paste the job description to analyse your fit">${esc(j.jd||'')}</textarea>
+   <div class="row" style="margin-top:10px"><button class="btn primary" id="jobSave">Save</button><button class="btn" id="jobMatch">Analyse fit</button>${(j.questions||[]).length?'<button class="btn" id="jobPractise">Practise their questions</button>':''}${exists?'<button class="btn danger" id="jobDel" style="margin-left:auto">Delete</button>':''}</div>
+   <div id="jobMatchOut">${j.match?matchResultHtml(j.match):''}</div></div>`; }
+  const by=STAGES.map(s=>[s,S.jobs.filter(j=>j.stage===s)]);
+  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><p class="muted" style="margin:0">${S.jobs.length} application${S.jobs.length===1?'':'s'} tracked. Drag cards between columns, or open one to edit.</p><button class="btn primary" id="jobNew">Add application</button></div>
+  <div class="kanban">${by.map(([s,js])=>`<div class="kcol" data-stage="${s}"><div class="khead"><b>${s}</b><span class="pill">${js.length}</span></div>${js.map(j=>`<div class="kcard" draggable="true" data-job="${j.id}"><b>${esc(j.company||'Company')}</b><span>${esc(j.role||'')}</span>${j.nextAt?`<small>Next: ${new Date(j.nextAt).toLocaleDateString(undefined,{day:'numeric',month:'short'})}</small>`:''}${j.match&&j.match.score!=null?`<small>Fit ${j.match.score}%</small>`:''}</div>`).join('')}</div>`).join('')}</div>`;
+}
+function matchHtml(){ return `<div class="card"><div class="stat"><div class="k">Job description match</div></div><p class="muted" style="margin:6px 0 10px">Paste a job description. Claude compares it with your progress, projects and resume bullets, then tells you what to highlight, what to revise and which questions to expect.</p>
+  <label class="f" for="mdJd">Job description</label><textarea id="mdJd" class="plain" style="min-height:180px">${esc(window._jdDraft||'')}</textarea>
+  <div class="row" style="margin-top:10px"><button class="btn primary" id="mdGo">Analyse fit</button><button class="btn" id="mdSave">Save as job application</button></div><div id="mdOut">${window._jdResult?matchResultHtml(window._jdResult):''}</div></div>`; }
+function profileForMatch(){
+  const skills=['dc','rc','af',...IV_TOPICS.map(t=>t.id)].map(a=>{ const s=areaSkill(a); return '- '+AREA_LABEL[a]+': '+(s==null?'not assessed':s+'/100'); }).join('\n');
+  const bullets=Object.entries(S.vault||{}).map(([k,v])=>(v.bullets||'')).join('\n') || Object.values(PROJECTS).flatMap(p=>p.bullets).join('\n');
+  const certs=(S.certs||[]).map(c=>c.name+' ('+c.status+')').join('; ')||'none listed';
+  return `SKILL LEVELS (from study progress):\n${skills}\n\nPROJECTS: ${Object.values(PROJECTS).map(p=>p.title+(p.pending?' (in progress)':'')).join('; ')}\n\nRESUME BULLETS:\n${bullets.slice(0,4000)}\n\nCERTIFICATIONS: ${certs}\n\nPORTAL TOPIC IDS you may reference for revision: ${['dc','rc','af',...IV_TOPICS.map(t=>t.id)].join(', ')}`;
+}
+async function runMatch(jd, out){
+  if(!jd.trim()){ toast('Paste a job description first'); return null; }
+  out.innerHTML='<p class="muted">Analysing… this takes 20–60 seconds.</p><div class="bar"><i class="indet"></i></div>';
+  const prompt=`You are a Salesforce hiring manager and career coach. Compare the candidate profile with the job description. Be honest about gaps. Reply with only JSON:
+{"role":"short role title","score": integer 0-100 overall fit,"matched":[{"skill":"...","evidence":"where the candidate shows it"}],"gaps":[{"skill":"...","action":"concrete way to close or address it","topic":"one portal topic id or empty"}],"highlight":["resume bullets rewritten to fit this job, max 4"],"revise":["portal topic ids to revise first, max 5"],"questions":["8 likely interview questions for this role"],"pitch":"a 3-sentence answer to 'why are you a fit for this role'"}
+
+CANDIDATE PROFILE
+${profileForMatch()}
+
+JOB DESCRIPTION
+${jd.slice(0,12000)}`;
+  try{ const r=await askJson(prompt,{modelTier:'default'}); if(!r||typeof r!=='object') throw {code:'invalid_json'}; r.date=todayKey(); out.innerHTML=matchResultHtml(r); bindMatchLinks(out); return r; }
+  catch(e){ out.innerHTML='<p class="muted">'+esc(aiErr(e))+'</p>'; return null; }
+}
+function matchResultHtml(r){
+  const ok=id=>AREA_LABEL[id];
+  return `<div class="match"><div class="row" style="align-items:center;gap:14px;margin:12px 0"><div class="mring" style="--c:${r.score>=75?'var(--ok)':r.score>=50?'var(--warn)':'#dc2626'};--p:${+r.score||0}"><span>${+r.score||0}%</span></div><div><b>${esc(r.role||'Fit analysis')}</b><div class="muted" style="font-size:13px">${esc(r.date||'')}</div></div></div>
+   ${r.pitch?`<div class="iv"><b>Your pitch</b><p>${esc(r.pitch)}</p></div>`:''}
+   <div class="grid g2" style="margin-top:12px"><div><h4>Matched</h4><ul>${(r.matched||[]).map(m=>`<li><b>${esc(m.skill)}</b> — ${esc(m.evidence)}</li>`).join('')}</ul></div>
+   <div><h4>Gaps</h4><ul>${(r.gaps||[]).map(g=>`<li><b>${esc(g.skill)}</b> — ${esc(g.action)} ${ok(g.topic)?`<button class="btn sm" data-revise="${esc(g.topic)}">Revise ${esc(AREA_LABEL[g.topic])}</button>`:''}</li>`).join('')}</ul></div></div>
+   ${(r.revise||[]).filter(ok).length?`<h4>Revise first</h4><div class="row">${r.revise.filter(ok).map(id=>`<button class="btn sm" data-revise="${esc(id)}">${esc(AREA_LABEL[id])}</button>`).join('')}</div>`:''}
+   ${(r.highlight||[]).length?`<h4>Resume bullets for this job</h4><ul>${r.highlight.map(b=>`<li>${esc(b)}</li>`).join('')}</ul><button class="btn sm" data-copybul="1">Copy bullets</button>`:''}
+   ${(r.questions||[]).length?`<h4>Likely questions</h4><ol>${r.questions.map(q=>`<li>${esc(q)}</li>`).join('')}</ol>`:''}</div>`;
+}
+function bindMatchLinks(root){
+  bindRevise();
+  $$('[data-copybul]',root||document).forEach(b=>b.onclick=()=>{ const items=$$('li',b.previousElementSibling).map(li=>'• '+li.textContent); copyText(items.join('\n')); });
+}
+function certsHtml(){
+  const t=todayKey();
+  return `<div class="grid g2"><div class="card"><div class="stat"><div class="k">My target exams</div></div>
+   ${S.certs.length?S.certs.map(c=>{ const d=c.date?daysUntil(c.date):null; const rd=certReady(c); return `<div class="cert" style="--c:${rd>=75?'var(--ok)':rd>=50?'var(--warn)':'#dc2626'}"><div class="mring" style="--p:${rd}"><span>${rd}%</span></div><div style="flex:1;min-width:0"><b>${esc(c.name)}</b><div class="row" style="gap:6px;margin-top:4px"><select data-certf="${c.id}.status" style="width:auto">${['Planned','Booked','Passed'].map(s=>`<option ${c.status===s?'selected':''}>${s}</option>`).join('')}</select><input type="date" data-certf="${c.id}.date" value="${esc(c.date||'')}" style="width:auto"></div><div class="muted" style="font-size:12.5px;margin-top:4px">${c.status==='Passed'?'Passed 🎉':d!=null?(d>=0?d+' days to go':'date passed'):'No date set'} · areas: ${(c.areas||[]).map(a=>esc(AREA_LABEL[a]||a)).join(', ')}</div></div><button class="btn sm danger" data-certdel="${c.id}">Remove</button></div>`; }).join(''):'<p class="muted">Add an exam from the list.</p>'}
+   <p class="muted" style="font-size:12.5px">Readiness combines your flashcard, mock-interview, exam and coverage scores for the exam's areas. Names reflect Salesforce's 2026 renames — confirm on Trailhead Academy before booking.</p></div>
+   <div class="card"><div class="stat"><div class="k">Add an exam</div></div>${CERT_SUGGEST.filter(s=>!S.certs.some(c=>c.name===s.name)).map((s,i)=>`<div class="item"><span class="txt">${esc(s.name)}</span><button class="btn sm" data-certadd="${esc(s.name)}">Add</button></div>`).join('')}</div></div>`;
+}
+let dragJob=null;
+function bindCareer(){
+  $$('[data-ctab]').forEach(b=>b.onclick=()=>{ careerTab=b.dataset.ctab; starEdit=null; jobEdit=null; render(); });
+  // stories
+  ['#starNew','#starNew2'].forEach(s=>{ const b=$(s); if(b) b.onclick=()=>{ starEdit={id:uid(),tags:[]}; render(); }; });
+  $$('[data-star]').forEach(c=>c.onclick=()=>{ starEdit=structuredClone(S.stars.find(s=>s.id===c.dataset.star)); render(); });
+  const read=()=>{ const s=starEdit; s.title=$('#sTitle').value.trim(); s.project=$('#sProj').value.trim(); ['s','t','a','r'].forEach(k=>s[k]=$('#s_'+k).value); s.tags=$$('[data-comp]').filter(x=>x.checked).map(x=>x.dataset.comp); s.updated=todayKey(); return s; };
+  const sc=$('#starCancel'); if(sc) sc.onclick=()=>{ starEdit=null; render(); };
+  const ss=$('#starSave'); if(ss) ss.onclick=()=>{ const s=read(); const i=S.stars.findIndex(x=>x.id===s.id); if(i>=0) S.stars[i]=s; else S.stars.unshift(s); save(); toast('Story saved'); starEdit=null; render(); checkBadges(); };
+  const sd=$('#starDel'); if(sd) sd.onclick=async()=>{ if(await askConfirm('Delete this story?','Delete')){ S.stars=S.stars.filter(x=>x.id!==starEdit.id); save(); starEdit=null; render(); } };
+  const sp=$('#starPractise'); if(sp) sp.onclick=()=>{ const s=read(); openTutor(`Act as an interviewer. Ask me a behavioural question this story would answer (competencies: ${s.tags.join(', ')||'general'}). Wait for my spoken-style answer, then score it on STAR structure, specificity, my personal contribution and measurable results.\n\nMY STORY FOR REFERENCE:\nS: ${s.s}\nT: ${s.t}\nA: ${s.a}\nR: ${s.r}`); };
+  const pl=$('#starPolish'); if(pl) pl.onclick=async()=>{ const s=read(); const out=$('#starOut'); out.innerHTML='<p class="muted">Polishing…</p>'; try{ const r=await askJson(`Improve this STAR interview story for a Salesforce developer/architect interview. Keep every fact the candidate gave; do not invent numbers — where a metric is missing, insert a [placeholder] to fill in. Make the Action section first-person and specific; keep the whole story speakable in about 2 minutes. Reply with only JSON {"s":"","t":"","a":"","r":"","tips":["2-4 short tips"]}.\n\nTITLE: ${s.title}\nS: ${s.s}\nT: ${s.t}\nA: ${s.a}\nR: ${s.r}`); out.innerHTML=`<div class="iv" style="margin-top:12px"><b>Suggested version</b>${['s','t','a','r'].map(k=>`<p><b style="color:inherit;text-transform:none;letter-spacing:0">${k.toUpperCase()}:</b> ${esc(r[k]||'')}</p>`).join('')}${(r.tips||[]).length?'<ul>'+r.tips.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':''}<button class="btn sm primary" id="starApply">Use this version</button></div>`; $('#starApply').onclick=()=>{ ['s','t','a','r'].forEach(k=>{ if(r[k]) $('#s_'+k).value=r[k]; }); toast('Applied — review and save'); }; }catch(e){ out.innerHTML='<p class="muted">'+esc(aiErr(e))+'</p>'; } };
+  // jobs
+  const jn=$('#jobNew'); if(jn) jn.onclick=()=>{ jobEdit={id:uid(),stage:'Wishlist',questions:[]}; render(); };
+  $$('[data-job]').forEach(c=>{ c.onclick=()=>{ jobEdit=structuredClone(S.jobs.find(j=>j.id===c.dataset.job)); render(); }; c.ondragstart=e=>{ dragJob=c.dataset.job; e.dataTransfer.effectAllowed='move'; c.classList.add('drag'); }; c.ondragend=()=>c.classList.remove('drag'); });
+  $$('.kcol').forEach(col=>{ col.ondragover=e=>{ e.preventDefault(); col.classList.add('over'); }; col.ondragleave=()=>col.classList.remove('over'); col.ondrop=e=>{ e.preventDefault(); col.classList.remove('over'); const j=S.jobs.find(x=>x.id===dragJob); if(j){ j.stage=col.dataset.stage; save(); render(); checkBadges(); } }; });
+  const readJob=()=>{ const j=jobEdit; j.company=$('#jCo').value.trim(); j.role=$('#jRole').value.trim(); j.stage=$('#jStage').value; j.nextAt=$('#jNext').value; j.url=$('#jUrl').value.trim(); j.location=$('#jLoc').value.trim(); j.notes=$('#jNotes').value; j.questions=$('#jQs').value.split('\n').map(x=>x.trim()).filter(Boolean); j.jd=$('#jJd').value; return j; };
+  const jc=$('#jobCancel'); if(jc) jc.onclick=()=>{ jobEdit=null; render(); };
+  const js=$('#jobSave'); if(js) js.onclick=()=>{ const j=readJob(); if(!j.company){ toast('Add the company name'); return; } const i=S.jobs.findIndex(x=>x.id===j.id); if(i>=0) S.jobs[i]=j; else S.jobs.unshift(j); save(); toast('Saved'); jobEdit=null; render(); checkBadges(); };
+  const jd=$('#jobDel'); if(jd) jd.onclick=async()=>{ if(await askConfirm('Delete this application?','Delete')){ S.jobs=S.jobs.filter(x=>x.id!==jobEdit.id); save(); jobEdit=null; render(); } };
+  const jm=$('#jobMatch'); if(jm) jm.onclick=async()=>{ const j=readJob(); const r=await runMatch(j.jd||'', $('#jobMatchOut')); if(r){ j.match=r; const i=S.jobs.findIndex(x=>x.id===j.id); if(i>=0){ S.jobs[i]=j; save(); } } };
+  const jp=$('#jobPractise'); if(jp) jp.onclick=()=>{ const j=readJob(); openTutor(`Run a mock interview for ${j.role||'this role'} at ${j.company||'this company'}. Ask me these questions one at a time, wait for my answer, then score it and suggest a stronger answer:\n${j.questions.map((q,i)=>(i+1)+'. '+q).join('\n')}`); };
+  // standalone matcher
+  const md=$('#mdGo'); if(md) md.onclick=async()=>{ window._jdDraft=$('#mdJd').value; const r=await runMatch(window._jdDraft, $('#mdOut')); if(r) window._jdResult=r; };
+  const ms=$('#mdSave'); if(ms) ms.onclick=()=>{ const jdText=$('#mdJd').value; const r=window._jdResult; jobEdit={id:uid(),stage:'Wishlist',questions:[],jd:jdText,role:r&&r.role||'',match:r||null}; careerTab='jobs'; render(); };
+  // certs
+  $$('[data-certadd]').forEach(b=>b.onclick=()=>{ const s=CERT_SUGGEST.find(x=>x.name===b.dataset.certadd); S.certs.push({id:uid(),name:s.name,areas:s.areas,status:'Planned',date:''}); save(); render(); });
+  $$('[data-certdel]').forEach(b=>b.onclick=()=>{ S.certs=S.certs.filter(c=>c.id!==b.dataset.certdel); save(); render(); });
+  $$('[data-certf]').forEach(el=>el.onchange=()=>{ const [id,f]=el.dataset.certf.split('.'); const c=S.certs.find(x=>x.id===id); if(c){ c[f]=el.value; save(); render(); } });
+  bindMatchLinks();
+}
+
+/* ---------------- GLOSSARY & CHEAT SHEETS ---------------- */
+function vGlossary(){
+  const q=(window._gq||'').toLowerCase(); const f=window._gf||'all';
+  const list=GLOSSARY.filter(([t,a,d])=>(f==='all'||a===f)&&(!q||(t+' '+d).toLowerCase().includes(q)));
+  const areas=[['all','All'],['dc','Data 360'],['rc','Revenue Cloud'],['af','Agentforce'],['core','Core platform']];
+  const colOf=a=>a==='core'?'#2563eb':MODS[a].color;
+  return `<h1>Glossary</h1><p class="sub">${GLOSSARY.length} terms in plain English. Every term is also a flashcard.</p>
+  <div class="card" style="margin-bottom:16px"><div class="stat"><div class="k">Cheat sheets to download</div></div><p class="muted" style="margin:6px 0 10px">One-page revision sheets built from your lessons, glossary and interview answers. Download as a web page and print or save as PDF from your browser.</p>
+   <div class="row">${[['dc','Data 360'],['rc','Revenue Cloud'],['af','Agentforce'],['core','Core platform & clouds']].map(([k,l])=>`<button class="btn" data-sheet="${k}" style="--vc:${colOf(k)}">${l}</button>`).join('')}</div></div>
+  <div class="tabs">${areas.map(([k,l])=>`<button class="tab ${f===k?'active':''}" data-gf="${k}">${l}</button>`).join('')}</div>
+  <input type="text" id="gq" placeholder="Search terms…" value="${esc(window._gq||'')}" style="margin-bottom:12px">
+  <div class="gloss">${list.map(([t,a,d])=>`<div class="gterm" style="--c:${colOf(a)}"><b>${esc(t)}</b><span>${esc(d)}</span></div>`).join('')||'<p class="muted">No matching terms.</p>'}</div>`;
+}
+function cheatSheet(k){
+  const title={dc:'Data 360',rc:'Revenue Cloud',af:'Agentforce',core:'Core platform & clouds'}[k];
+  const days={dc:[7,14,21],rc:[28,35,42],af:[49,56,63],core:[]}[k];
+  const terms=GLOSSARY.filter(g=>g[1]===k);
+  const topics=k==='core'?IV_TOPICS:[];
+  const sec=days.map(n=>READ[n]?`<section><h2>${esc(LESSONS[n-1].t)}</h2>${READ[n].r}</section>`:'').join('');
+  const qa=topics.map(t=>`<section><h2>${esc(t.title)}</h2>${t.qa.map(([q,a])=>`<p><b>${esc(q)}</b><br>${esc(a)}</p>`).join('')}</section>`).join('');
+  return `<!doctype html><html><head><meta charset="utf-8"><title>${title} cheat sheet</title><style>body{font:13px/1.5 system-ui,sans-serif;max-width:900px;margin:24px auto;padding:0 16px;color:#1b2033}h1{font-size:22px}h2{font-size:15px;margin:18px 0 6px;border-bottom:1px solid #ddd;padding-bottom:4px}h5{margin:10px 0 4px}dt{font-weight:700}dd{margin:0 0 6px}ul{padding-left:18px}@media print{section{break-inside:avoid}}</style></head><body><h1>${title} — cheat sheet</h1><p>Generated ${todayKey()} from Tri-Cloud Lab.</p>${sec}${qa}${terms.length?`<section><h2>Glossary</h2><dl>${terms.map(([t,a,d])=>`<dt>${esc(t)}</dt><dd>${esc(d)}</dd>`).join('')}</dl></section>`:''}</body></html>`;
+}
+function bindGlossary(){
+  $$('[data-gf]').forEach(b=>b.onclick=()=>{ window._gf=b.dataset.gf; render(); });
+  const g=$('#gq'); if(g) g.oninput=debounce(()=>{ window._gq=g.value; render(); const n=$('#gq'); n.focus(); n.setSelectionRange(n.value.length,n.value.length); },200);
+  $$('[data-sheet]').forEach(b=>b.onclick=()=>downloadText('cheat-sheet-'+b.dataset.sheet+'.html', cheatSheet(b.dataset.sheet)));
+}
+
+/* ---------------- PLAYGROUND ---------------- */
+const PG_LANGS={apex:'Apex',lwcjs:'LWC JavaScript',html:'LWC HTML',soql:'SOQL',other:'Other / pseudo-code'};
+const PG_STARTERS={
+ blank:{lang:'apex',code:'public with sharing class MyClass {\n    \n}\n'},
+ trigger:{lang:'apex',code:'trigger ContactTrigger on Contact (before insert, before update) {\n    for (Contact c : Trigger.new) {\n        // TODO\n    }\n}\n'},
+ buggy:{lang:'apex',code:'// Find the problems in this trigger\ntrigger OppTrigger on Opportunity (after update) {\n    for (Opportunity o : Trigger.new) {\n        Account a = [SELECT Id, Total__c FROM Account WHERE Id = :o.AccountId];\n        a.Total__c = a.Total__c + o.Amount;\n        update a;\n    }\n}\n'},
+ lwc:{lang:'lwcjs',code:"import { LightningElement, api, wire } from 'lwc';\n\nexport default class MyComponent extends LightningElement {\n    @api recordId;\n}\n"},
+ soql:{lang:'soql',code:'SELECT Id, Name, (SELECT Id, Email FROM Contacts)\nFROM Account\nWHERE CreatedDate = LAST_N_DAYS:30\n'}
+};
+function vPlay(){
+  const pg=S.drafts&&S.drafts.playground||{lang:'apex',code:PG_STARTERS.buggy.code};
+  const lines=(pg.code.match(/\n/g)||[]).length+1;
+  return `<h1>Code Playground</h1><p class="sub">Write Apex, LWC or SOQL and get instant feedback from Claude on bugs, governor limits, security and tests. Code isn't executed here — deploy to your org to run it.</p>
+  <div class="pg"><div class="card" style="min-width:0"><div class="row" style="gap:8px;margin-bottom:8px"><select id="pgLang" style="width:auto">${Object.entries(PG_LANGS).map(([k,v])=>`<option value="${k}" ${pg.lang===k?'selected':''}>${v}</option>`).join('')}</select>
+    <select id="pgStarter" style="width:auto"><option value="">Load a starter…</option><option value="buggy">Spot the bugs (trigger)</option><option value="trigger">Trigger skeleton</option><option value="lwc">LWC skeleton</option><option value="soql">SOQL example</option><option value="blank">Blank class</option></select>
+    <button class="btn sm" id="pgSave" style="margin-left:auto">Save as snippet</button></div>
+   <div class="editor"><pre class="gutter" id="pgGutter" aria-hidden="true">${Array.from({length:lines},(_,i)=>i+1).join('\n')}</pre><textarea id="pgCode" spellcheck="false" aria-label="Code editor">${esc(pg.code)}</textarea></div>
+   <div class="row" style="margin-top:10px">${[['review','Review my code'],['explain','Explain it'],['tests','Write a test class'],['bulk','Make it bulk-safe'],['security','Security check']].map(([k,l],i)=>`<button class="btn ${i===0?'primary':''}" data-pg="${k}">${l}</button>`).join('')}<button class="btn" id="pgStop" hidden>Stop</button></div></div>
+   <div class="card pgout" style="min-width:0"><div class="stat"><div class="k">Feedback</div></div><div id="pgOut" class="tbody">${window._pgOut?fmtTutor(window._pgOut):'<p class="muted">Choose an action. Try "Spot the bugs" with Review — it has three classic interview mistakes.</p>'}</div></div></div>`;
+}
+let pgCtl=null;
+function bindPlay(){
+  const ta=$('#pgCode'), gut=$('#pgGutter'); if(!ta) return;
+  const persist=debounce(()=>{ S.drafts=S.drafts||{}; S.drafts.playground={lang:$('#pgLang').value, code:ta.value}; save(); },600);
+  const syncG=()=>{ const n=(ta.value.match(/\n/g)||[]).length+1; gut.textContent=Array.from({length:n},(_,i)=>i+1).join('\n'); gut.scrollTop=ta.scrollTop; };
+  ta.oninput=()=>{ syncG(); persist(); }; ta.onscroll=()=>{ gut.scrollTop=ta.scrollTop; };
+  ta.onkeydown=e=>{ if(e.key==='Tab'){ e.preventDefault(); const s=ta.selectionStart, en=ta.selectionEnd; ta.value=ta.value.slice(0,s)+'    '+ta.value.slice(en); ta.selectionStart=ta.selectionEnd=s+4; syncG(); persist(); } };
+  $('#pgLang').onchange=persist;
+  $('#pgStarter').onchange=e=>{ const st=PG_STARTERS[e.target.value]; if(!st) return; ta.value=st.code; $('#pgLang').value=st.lang; syncG(); persist(); e.target.value=''; };
+  $('#pgSave').onclick=()=>{ S.snippets.unshift({id:uid(),mod:'iv',title:'Playground '+todayKey(),kind:PG_LANGS[$('#pgLang').value],body:ta.value,date:todayKey()}); save(); toast('Saved to Notes & Snippets'); };
+  const asks={review:'Review this code like a senior Salesforce developer in a code review. List bugs, governor-limit risks, security issues (CRUD/FLS/sharing, injection) and missing tests in order of severity, then show a corrected version.',explain:'Explain what this code does, step by step, for an interview walkthrough. Then list two follow-up questions an interviewer might ask.',tests:'Write a complete test class for this code: bulk (200 records), positive and negative cases, mocks where needed, and Assert class assertions. Explain coverage briefly.',bulk:'Rewrite this code to be fully bulk-safe (no SOQL/DML in loops, collections and maps), explaining each change.',security:'Do a security review: CRUD/FLS, sharing, SOQL injection, XSS (for LWC), secrets, and how to fix each issue.'};
+  $$('[data-pg]').forEach(b=>b.onclick=async()=>{ const out=$('#pgOut'); const code=ta.value.trim(); if(!code){ toast('Write some code first'); return; } out.innerHTML='<p class="muted">Thinking…</p>'; $('#pgStop').hidden=false; pgCtl=new AbortController();
+    try{ const {text}=await ask(asks[b.dataset.pg]+'\n\nLanguage: '+PG_LANGS[$('#pgLang').value]+'\n\nCODE:\n'+code.slice(0,20000),{cache:false,signal:pgCtl.signal,onText:({text})=>{ out.innerHTML=fmtTutor(text); }}); window._pgOut=text; out.innerHTML=fmtTutor(text); }
+    catch(e){ out.innerHTML=(e&&e.text?fmtTutor(e.text):'')+'<p class="muted">'+esc(aiErr(e))+'</p>'; }
+    $('#pgStop').hidden=true; });
+  $('#pgStop').onclick=()=>{ if(pgCtl) pgCtl.abort(); };
+}
+
+/* ---------------- WEEKLY REPORTS (written by the Sunday task) ---------------- */
+async function loadReports(){
+  if(!SYNC.ready || !SYNC.db) return;
+  try{ const snap=await SYNC.db.collection(SYNC.base).get(); window.REPORTS=snap.docs.filter(d=>d.id.startsWith('weekly-')).map(d=>d.data()).filter(r=>r&&r.date).sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,8); if(view==='today') rerenderKeepScroll(); }catch(e){}
+}
+
+/* ---------------- dispatcher ---------------- */
+function bindFeatures(){
+  if(view==='today') bindToday();
+  else if(view==='cards') bindCards();
+  else if(view==='mock') bindMock();
+  else if(view==='career') bindCareer();
+  else if(view==='glossary') bindGlossary();
+  else if(view==='play') bindPlay();
+}
+
+ensureState(); if(S.mockDraft && S.mockDraft.items){ MOCK=S.mockDraft; }
+buildNav(); render(); bindTutor(); bindFocus(); initCloud(); checkBadges();
 </script>

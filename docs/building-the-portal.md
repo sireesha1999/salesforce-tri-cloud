@@ -15,6 +15,8 @@ I needed to master three fast-changing Salesforce products (Data 360, Revenue Cl
 | 3 | Daily lessons with courses | 84 daily lessons; course tracker with completion estimates from video hours × pace ÷ daily budget |
 | 4 | Read everything in the portal itself; stay current | Written lessons summarised from docs, Trailhead and blogs, with interview answers and sources; Salesforce Updates feed; global search |
 | 5 | AI tutor while reading/watching; zero manual steps; interview prep; GitHub | Moved to a private claude.ai page: in-page AI tutor, cloud-synced progress, updates written automatically by a scheduled research job, interview track with live-coding scenarios, this repository |
+| 6 | More colourful, interactive, responsive | Section colour theming, progress rings, celebration feedback, tablet icon rail, phone tab bar |
+| 7 | A true one-stop shop for learning and interviews | Today hub, spaced-repetition flashcards, weak-spot scoring, AI-scored mock interviews, STAR bank, job board with JD fit analysis, certification readiness, glossary and cheat sheets, code playground, badges, focus mode, weekly reports |
 
 ## Architecture (final)
 
@@ -40,4 +42,3 @@ I needed to master three fast-changing Salesforce products (Data 360, Revenue Cl
 
 - Add Projects 3 and 4 (Agentforce agent; tri-cloud capstone) with the same verification discipline.
 - CI: run Apex tests against a scratch org and LWC Jest tests on every push.
-- Spaced-repetition scheduling for interview questions based on self-assessed confidence.
