@@ -4,7 +4,8 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 command -v firebase >/dev/null 2>&1 || { echo "Install the Firebase CLI first:  npm install -g firebase-tools"; exit 1; }
-firebase login --reuse
+# Sign in only if not already signed in
+firebase projects:list >/dev/null 2>&1 || firebase login
 
 if [ ! -f .firebaserc ]; then
   read -rp "Firebase project ID (from the Firebase console): " PROJECT
