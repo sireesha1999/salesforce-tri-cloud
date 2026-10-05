@@ -1,0 +1,13 @@
+{
+  "name": "salesforce-tri-cloud-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Salesforce Data 360, Revenue Cloud, Agentforce and core-platform portfolio with interview live-coding solutions",
+  "scripts": {
+    "test:unit": "sfdx-lwc-jest",
+    "test:unit:watch": "sfdx-lwc-jest --watch"
+  },
+  "devDependencies": {
+    "@salesforce/sfdx-lwc-jest": "^7.0.0"
+  }
+}

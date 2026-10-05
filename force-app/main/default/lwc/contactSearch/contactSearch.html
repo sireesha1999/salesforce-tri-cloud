@@ -1,0 +1,34 @@
+<template>
+    <lightning-card title="Contact search" icon-name="standard:contact">
+        <div class="slds-p-horizontal_medium">
+            <lightning-input
+                type="search"
+                label="Search by name or email"
+                placeholder="Type at least 2 characters"
+                onchange={handleChange}
+            ></lightning-input>
+
+            <template lwc:if={isLoading}>
+                <lightning-spinner alternative-text="Searching" size="small"></lightning-spinner>
+            </template>
+
+            <template lwc:if={error}>
+                <p class="slds-text-color_error slds-m-top_small" data-id="error">{error}</p>
+            </template>
+
+            <template lwc:if={hasResults}>
+                <lightning-datatable
+                    class="slds-m-top_small"
+                    key-field="Id"
+                    data={contacts}
+                    columns={columns}
+                    hide-checkbox-column
+                ></lightning-datatable>
+            </template>
+
+            <template lwc:if={showEmpty}>
+                <p class="slds-m-top_small" data-id="empty">No contacts found.</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>

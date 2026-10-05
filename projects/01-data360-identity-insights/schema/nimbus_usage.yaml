@@ -1,0 +1,12 @@
+openapi: 3.0.3
+components:
+  schemas:
+    usage_event:
+      type: object
+      properties:
+        event_id:    { type: string }
+        app_user_id: { type: string }
+        device_id:   { type: string }
+        event_type:  { type: string }   # gps_ping | api_call | alert_error
+        quantity:    { type: number }
+        event_ts:    { type: string, format: date-time }

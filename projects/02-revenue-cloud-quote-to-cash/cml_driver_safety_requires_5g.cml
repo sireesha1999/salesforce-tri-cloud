@@ -1,0 +1,6 @@
+type FleetStarterKit {
+    relation trackers : TrackerT1[0..1];
+    relation safety   : DriverSafetyAI[0..1];
+    constraint(safety[DriverSafetyAI] > 0 -> trackers[TrackerT1].Connectivity == "5G",
+               "Driver Safety AI requires 5G trackers");
+}

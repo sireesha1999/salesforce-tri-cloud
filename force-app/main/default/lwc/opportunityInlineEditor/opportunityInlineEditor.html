@@ -1,0 +1,20 @@
+<template>
+    <lightning-card title="Open opportunities" icon-name="standard:opportunity">
+        <template lwc:if={error}>
+            <p class="slds-p-horizontal_medium slds-text-color_error">{error}</p>
+        </template>
+        <template lwc:if={hasRows}>
+            <lightning-datatable
+                key-field="Id"
+                data={opportunities}
+                columns={columns}
+                draft-values={draftValues}
+                onsave={handleSave}
+                hide-checkbox-column
+            ></lightning-datatable>
+        </template>
+        <template lwc:else>
+            <p class="slds-p-horizontal_medium">No open opportunities.</p>
+        </template>
+    </lightning-card>
+</template>

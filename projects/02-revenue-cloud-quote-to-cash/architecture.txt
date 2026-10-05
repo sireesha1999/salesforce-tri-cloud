@@ -1,0 +1,10 @@
+ Product Catalog Management                     Salesforce Pricing                   Transaction Management
+ ───────────────────────────                    ──────────────────                   ──────────────────────
+ Catalog: Nimbus UK                             Context Definition                   Opportunity → Quote
+  └ Categories: Hardware | Subscriptions          (SalesTransactionContext + ext.)     └ Browse Catalogs → configure
+       | Add-ons | Services                     Pricing Procedure (cloned)             └ Price (procedure) → Approval
+ Product Classification: Telematics Device       1 List Price                         Quote → Create Order → Activate
+  └ Attributes: Connectivity, Mount Type         2 Attribute-based uplift (5G)          └ Assets + Asset State Periods
+ Product Selling Models:                         3 Volume tier (Price Adj. Schedule)      └ Amend / Renew / Cancel
+  One Time | Annual Term (12 mo) | Monthly       4 Partner discount (Decision Table)
+ Bundle: Fleet Starter Kit                       5 Manual discount                    Flow Approval Process (>20%)

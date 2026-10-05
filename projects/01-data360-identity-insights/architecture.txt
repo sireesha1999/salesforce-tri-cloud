@@ -1,0 +1,15 @@
+ Salesforce CRM (Account, Contact) ─┐
+ App users CSV (upload / cloud bucket)┤
+ Billing accounts CSV ───────────────┼─► Data Streams ─► DLOs ─► DMOs
+ Usage events (Ingestion API, stream)┘        (Individual, Contact Point Email/Phone,
+                                               Party Identification, Product Usage Event)
+                                                          │
+                                         Identity Resolution ruleset
+                                                          ▼
+                                                 Unified Individual
+                              ┌───────────────────────────┴───────────────────────────┐
+              Calculated Insight (30-day health)                     Streaming Insight (5-min error window)
+                              │                                                       │
+          Copy Field enrichment → Contact.Usage_30d__c      Data Action → Platform Event (DataObjectDataChgEvent)
+                                                                      → Platform-event Flow + invocable Apex
+                                                                      → Task for CSM + Contact.Usage_Health__c = At Risk

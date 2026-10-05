@@ -1,0 +1,10 @@
+scenario,line,calculation,expected_standard_gbp,expected_partner_gbp
+starter_kit_60_5g,Fleet Core annual x60,60*18*12*0.92,11923.20,11327.04
+starter_kit_60_5g,Tracker T1 5G x60,(120+30)*60,9000.00,8550.00
+starter_kit_60_5g,Onboarding x1,1500,1500.00,1425.00
+starter_kit_60_5g,TOTAL,,22423.20,21302.04
+tier_boundary,Fleet Core qty 49,49*18*12*1.00,10584.00,
+tier_boundary,Fleet Core qty 50,50*18*12*0.92,9936.00,
+tier_boundary,Fleet Core qty 199,199*18*12*0.92,39545.28,
+tier_boundary,Fleet Core qty 200,200*18*12*0.85,36720.00,
+amendment_month7_plus20,Fleet Core +20 for 6 months,20*18*6*0.92,1987.20,
