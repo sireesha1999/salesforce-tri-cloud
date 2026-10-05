@@ -1,0 +1,6 @@
+firestore.rules
+functions/.env
+functions/node_modules/
+.firebaserc
+.firebase/
+*.log

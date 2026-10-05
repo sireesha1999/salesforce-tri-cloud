@@ -1,3 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#4f46e5">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<script src="/__/firebase/10.14.1/firebase-app-compat.js"></script>
+<script src="/__/firebase/10.14.1/firebase-auth-compat.js"></script>
+<script src="/__/firebase/10.14.1/firebase-firestore-compat.js"></script>
+<script src="/__/firebase/init.js"></script>
+<script>
+/* Tri-Cloud Lab — standalone website adapter.
+   Provides the same small API the portal uses (claude.use('db'|'user'|'sample'|'downloads'))
+   backed by Firebase Auth, Cloud Firestore and the /api/ai Cloud Function. */
+(function(){
+  let resolveReady; const ready = new Promise(r => resolveReady = r);
+  window.claude = { use: async (name) => { const impl = await ready; return impl ? impl(name) : null; } };
+
+  function overlay(html){ const o = document.getElementById('auth'); o.innerHTML = html; o.hidden = false; }
+  function hideOverlay(){ document.getElementById('auth').hidden = true; }
+
+  function start(){
+    if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length) {
+      overlay('<div class="auth-box"><h1>Tri-Cloud Lab</h1><p>Firebase is not configured. Deploy with <code>firebase deploy</code> so <code>/__/firebase/init.js</code> is served.</p></div>');
+      resolveReady(null); return;
+    }
+    const auth = firebase.auth(), fs = firebase.firestore();
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        overlay(`<div class="auth-box"><span class="mark" aria-hidden="true"></span><h1>Tri-Cloud Lab</h1><p>Your private Salesforce learning and interview hub.</p><button class="btn primary big" id="signIn" type="button">Sign in with Google</button><p class="muted" id="authMsg"></p></div>`);
+        document.getElementById('signIn').onclick = () => auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(e => { document.getElementById('authMsg').textContent = 'Sign-in failed: ' + (e && e.message || e); });
+        return;
+      }
+      try {
+        await fs.doc('data/users/' + user.uid + '/progress').get(); // rules allow only the owner's email
+      } catch (e) {
+        overlay(`<div class="auth-box"><h1>Not authorised</h1><p>${(user.email||'This account')} can't open this site.</p><button class="btn" id="signOut2" type="button">Use another account</button></div>`);
+        document.getElementById('signOut2').onclick = () => auth.signOut();
+        return;
+      }
+      hideOverlay();
+      resolveReady((name) => {
+        if (name === 'db') return { doc: p => fs.doc(p), collection: p => fs.collection(p) };
+        if (name === 'user') return { id: async () => user.uid, isOwner: async () => true };
+        if (name === 'downloads') return { save: async ({ filename, data }) => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([data], { type: 'application/octet-stream' })); a.download = filename; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000); } };
+        if (name === 'sample') return makeSample(user);
+        return null;
+      });
+    });
+  }
+
+  function makeSample(user){
+    async function sample(input, opts){
+      opts = opts || {};
+      let res;
+      try {
+        const token = await user.getIdToken();
+        res = await fetch('/api/ai', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({ input, modelTier: opts.modelTier || 'default' }), signal: opts.signal });
+      } catch (e) { throw { code: e && e.name === 'AbortError' ? 'cancelled' : 'upstream_error', message: String(e) }; }
+      if (!res.ok) {
+        const msg = await res.text().catch(() => '');
+        throw { code: res.status === 429 ? 'rate_limited' : res.status === 403 ? 'not_granted' : res.status === 413 ? 'prompt_too_large' : 'upstream_error', message: msg };
+      }
+      let text = '';
+      try {
+        const reader = res.body.getReader(), dec = new TextDecoder();
+        for (;;) {
+          const { done, value } = await reader.read(); if (done) break;
+          const delta = dec.decode(value, { stream: true }); if (!delta) continue;
+          text += delta; if (opts.onText) { try { opts.onText({ text, delta }); } catch (e) {} }
+        }
+      } catch (e) { throw { code: e && e.name === 'AbortError' ? 'cancelled' : 'upstream_error', message: String(e), text }; }
+      const marker = text.lastIndexOf('\u0000ERR:');
+      if (marker >= 0) { const partial = text.slice(0, marker); throw { code: 'upstream_error', message: text.slice(marker + 5), text: partial }; }
+      if (!text.trim()) throw { code: 'empty_completion', message: 'Empty answer' };
+      return { text, truncated: false, modelTierApplied: opts.modelTier || 'default' };
+    }
+    sample.json = async (input, opts) => {
+      const withFormat = typeof input === 'string' ? input + '\n\nReply with only valid JSON, no other text.' : input;
+      const { text } = await sample(withFormat, Object.assign({}, opts, { onText: undefined }));
+      const tryParse = s => { try { return JSON.parse(s); } catch (e) { return undefined; } };
+      let v = tryParse(text.trim());
+      if (v === undefined) { const m = text.match(/```(?:json)?\s*([\s\S]*?)```/); if (m) v = tryParse(m[1]); }
+      if (v === undefined) { const a = Math.min(...['{', '['].map(c => { const i = text.indexOf(c); return i < 0 ? Infinity : i; })); const b = Math.max(text.lastIndexOf('}'), text.lastIndexOf(']')); if (a < b) v = tryParse(text.slice(a, b + 1)); }
+      if (v === undefined) throw { code: 'invalid_json', message: 'No JSON in answer', text };
+      return v;
+    };
+    sample.limits = async () => ({ maxPromptBytes: 262144 });
+    return sample;
+  }
+
+  document.addEventListener('click', e => { if (e.target && e.target.id === 'signOut' && typeof firebase !== 'undefined') firebase.auth().signOut().then(() => location.reload()); });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
+
+</script>
+<style>[hidden]{display:none!important} html{color-scheme:light} body{margin:0}</style>
 <title>Tri-Cloud Lab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
@@ -399,6 +500,17 @@ label.chip{cursor:pointer}
 .focus[data-phase="break"] .fphase{color:var(--ok)}
 .fclock{font:600 clamp(64px,16vw,140px)/1 "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;margin:10px 0}
 </style>
+<style>
+#auth{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:16px;background:radial-gradient(900px 500px at 80% 0%,color-mix(in srgb,#4f46e5 18%,transparent),transparent 60%),var(--bg,#f6f7fb)}
+#auth .auth-box{max-width:420px;width:100%;text-align:center;background:var(--panel,#fff);border:1px solid var(--line,#e2e5ef);border-radius:18px;padding:32px 24px;box-shadow:0 20px 50px rgba(20,25,50,.12)}
+#auth .mark{display:block;margin:0 auto 12px;width:48px;height:48px}
+#auth h1{margin:0 0 6px}
+#auth .btn.big{margin-top:14px}
+</style>
+</head>
+<body>
+<div id="auth" hidden></div>
+
 <div class="mobile-nav"><div class="mtop"><span class="mark" aria-hidden="true"></span><b>Tri-Cloud Lab</b><span id="mview"></span></div></div>
 <div class="app">
   <nav class="side" id="sidenav">
@@ -406,7 +518,7 @@ label.chip{cursor:pointer}
     <div class="navsep"></div>
     <div id="navlist"></div>
     <div class="navsep"></div>
-    <div class="side-foot">Private to your Claude account unless you share it.<span id="syncState" data-state="local">Connecting…</span></div>
+    <div class="side-foot">Private — only your account can sign in.<span id="syncState" data-state="local">Connecting…</span></div>
   </nav>
   <main id="main"></main>
 </div>
@@ -2860,7 +2972,7 @@ function vCourses(){
        <div style="font-size:13.5px;margin-top:6px">${pct}% · ${est}</div></div>`;}).join('');
   }).join('');
   const prim=COURSES.filter(c=>c.primary&&c.hours); const tot=prim.reduce((s,c)=>s+c.hours,0);
-  return `<h1>Courses</h1><p class="sub">Video tracks for each module, with completion estimates from your own pace. Opens each course in your own browser — no account linking needed.</p>
+  return `<h1>Courses</h1><p class="sub">Video tracks for each module, with completion estimates from your own pace. Opens each course in a new tab — no account linking needed.</p>
   <div class="card"><div class="stat"><div class="k">How estimates work</div></div>
    <p style="margin:6px 0">Main-track video: <b>${tot.toFixed(1)} h</b>. Effective time = video hours × <b>${st.pace}</b> (pausing, note-taking, replays). Your daily course budget is <b>${st.courseWd} min</b> on weekdays and <b>${st.courseWe} min</b> at weekends — the rest of your study time goes to labs and theory. Change these in Settings.</p></div>
   ${rows}`;
@@ -2995,7 +3107,7 @@ function vVault(){
 }
 function vSettings(){
   const st=S.settings;
-  return `<h1>Settings & Backup</h1><p class="sub">Your progress, notes and snippets sync privately to your Claude account. Import a backup from the old local-file version here to bring your history across.</p>
+  return `<h1>Settings & Backup</h1><p class="sub">Your progress, notes and snippets sync privately to your account. Import a backup from the old local-file version here to bring your history across.</p>
   <div class="grid g2">
    <div class="card"><div class="stat"><div class="k">Study plan</div></div>
     <label class="f">Weekday target (hours)</label><input type="number" step="0.25" min="0" id="sWd" value="${st.weekdayH}">
@@ -3011,6 +3123,7 @@ function vSettings(){
    <div class="card"><div class="stat"><div class="k">Backup</div></div>
     <p class="muted">Export everything (time log, checklists, notes, snippets, vault) as a JSON file, or import one — including a backup exported from the earlier local-file portal.</p>
     <div class="row"><button class="btn primary" id="bExp">Export backup</button><label class="btn">Import backup<input type="file" id="bImp" accept="application/json" hidden></label></div>
+    <h3>Account</h3><button class="btn" id="signOut" type="button">Sign out</button>
     <h3>Danger zone</h3><button class="btn danger" id="bReset">Erase all portal data</button>
    </div>
   </div>`;
@@ -3484,9 +3597,9 @@ function applyState(obj){
 function setSyncStatus(s){
   SYNC.status=s;
   const el=document.getElementById('syncState'); if(!el) return;
-  el.textContent = s==='synced' ? 'Synced to your Claude account — available on any device you sign in on.'
+  el.textContent = s==='synced' ? 'Synced to your account — available on any device you sign in on.'
     : s==='error' ? 'Sync paused — changes are kept in this browser and will sync on your next change.'
-    : 'Saved in this browser only (open the page inside Claude to sync).';
+    : 'Saved in this browser only (sign in to sync).';
   el.dataset.state=s;
 }
 function scheduleSync(){ if(!SYNC.ready) return; clearTimeout(SYNC.timer); SYNC.timer=setTimeout(syncNow, 2500); }
@@ -3688,7 +3801,7 @@ function fmtTutor(s){
 async function sendTutor(){
   const box=$('#tutorIn'); const q=box.value.trim(); if(!q || TUTOR.busy) return;
   let sample=null; try{ sample = window.claude && await claude.use('sample'); }catch(e){}
-  if(!sample){ toast('The tutor works when this page is opened inside Claude'); return; }
+  if(!sample){ toast('The tutor is unavailable — check you are signed in'); return; }
   box.value=''; TUTOR.turns.push({role:'user',content:q}); TUTOR.turns.push({role:'assistant',content:''});
   const idx=TUTOR.turns.length-1; TUTOR.busy=true; $('#tutorStop').hidden=false; renderTutor();
   const bubble=()=>$$('#tutorLog .tmsg')[idx]; const setText=t=>{ const b=bubble(); if(b) $('.tbody',b).innerHTML=fmtTutor(t); $('#tutorLog').scrollTop=1e9; };
@@ -3702,7 +3815,7 @@ async function sendTutor(){
     TUTOR.turns[idx].content=text+(truncated?'\n\n(Answer cut short — ask for the rest.)':'');
   }catch(e){
     const keep=e&&e.text?e.text:'';
-    const msg={not_granted:'The tutor needs your permission to use Claude. Ask again and choose Allow.',rate_limited:'Too many questions at once — wait a moment and ask again.',session_expired:'Please sign in to Claude again.',refused:'Claude declined that request. Try rephrasing it.',cancelled:'Stopped.',prompt_too_large:'That was too long — send a shorter excerpt.',sampling_disabled:'Claude isn\'t available for this account.'}[e&&e.code]||'Something went wrong — try again.';
+    const msg={not_granted:'Your account is not allowed to use the AI features.',rate_limited:'Too many questions at once — wait a moment and ask again.',session_expired:'Please sign in to Claude again.',refused:'Claude declined that request. Try rephrasing it.',cancelled:'Stopped.',prompt_too_large:'That was too long — send a shorter excerpt.',sampling_disabled:'AI isn\'t available.'}[e&&e.code]||'Something went wrong — try again.';
     TUTOR.turns[idx].content=(keep?keep+'\n\n':'')+'('+msg+')';
   }
   TUTOR.busy=false; $('#tutorStop').hidden=true; renderTutor();
@@ -3864,7 +3977,7 @@ async function askJson(input, opts){
   if(!sample) throw {code:'unavailable'};
   return sample.json(input, opts||{});
 }
-function aiErr(e){ return ({unavailable:'This needs the page to be open inside Claude.',not_granted:'Allow the page to use Claude, then try again.',rate_limited:'Too many requests — wait a moment.',invalid_json:'The answer came back in the wrong shape — try again.',cancelled:'Stopped.'})[e&&e.code]||'Something went wrong — try again.'; }
+function aiErr(e){ return ({unavailable:'AI is unavailable right now — check you are signed in.',not_granted:'Allow the page to use Claude, then try again.',rate_limited:'Too many requests — wait a moment.',invalid_json:'The answer came back in the wrong shape — try again.',cancelled:'Stopped.'})[e&&e.code]||'Something went wrong — try again.'; }
 async function downloadText(filename, data){
   let dl=null; try{ dl=window.claude&&await claude.use('downloads'); }catch(e){}
   if(dl){ try{ await dl.save({filename, data}); toast('Saved '+filename); }catch(e){ if(!e||e.code!=='declined') toast('Download not saved'); } }
@@ -4176,7 +4289,7 @@ function mockResultHtml(m){
    <div class="row"><button class="btn primary" id="ssSave">Save scores</button><button class="btn" id="ssRetry">Try AI scoring again</button></div>`;
   return `<button class="btn sm" id="mBack">← Mock interviews</button>
   <h1 style="margin-top:14px">Scorecard · ${m.overall}/10</h1><p class="sub">${esc(m.date)} · ${esc(m.focusLabel||m.focus)}${m.durationMin?' · '+m.durationMin+' min':''}${m.mode==='self'?' · self-scored':''}</p>
-  ${m.mode==='self'?'<div class="callout info">Self-scored. Open the page inside Claude and run a mock to get AI feedback, strengths, gaps and a plan.</div>':''}
+  ${m.mode==='self'?'<div class="callout info">Self-scored because AI scoring was unavailable. Try again later for AI feedback, strengths, gaps and a plan.</div>':''}
   <div class="grid g3" ${m.mode==='self'?'hidden':''}>
    <div class="card tile" style="--c:var(--ok)"><div class="stat"><div class="k">Strengths</div></div><ul>${(m.strengths||[]).map(s=>'<li>'+esc(s)+'</li>').join('')||'<li class="muted">—</li>'}</ul></div>
    <div class="card tile" style="--c:#dc2626"><div class="stat"><div class="k">Gaps</div></div><ul>${(m.gaps||[]).map(s=>'<li>'+esc(s)+'</li>').join('')||'<li class="muted">—</li>'}</ul></div>
@@ -4406,3 +4519,6 @@ function bindFeatures(){
 ensureState(); if(S.mockDraft && S.mockDraft.items){ MOCK=S.mockDraft; }
 buildNav(); render(); bindTutor(); bindFocus(); initCloud(); checkBadges();
 </script>
+
+</body>
+</html>

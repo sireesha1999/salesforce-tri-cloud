@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Only the owner's verified Google account can use the site.
+    function isOwner() {
+      return request.auth != null
+        && request.auth.token.email == '__ALLOWED_EMAIL__'
+        && request.auth.token.email_verified == true;
+    }
+    // Private progress, notes, career data and weekly reports.
+    match /data/users/{uid}/{docId} {
+      allow read: if isOwner() && request.auth.uid == uid;
+      allow write: if isOwner() && request.auth.uid == uid && !docId.matches('weekly-.*');
+    }
+    // Daily Salesforce updates: written only by the backend.
+    match /updates/{id} {
+      allow read: if isOwner();
+      allow write: if false;
+    }
+    // Everything else (including AI usage counters) is server-only.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

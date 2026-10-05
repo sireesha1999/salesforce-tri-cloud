@@ -15,6 +15,7 @@ The projects are built around one fictional company, **Nimbus Fleet Ltd**, a UK 
 | Interview live coding | 18 timed scenarios (Apex, triggers, async, REST, platform events, LWC, Flow, integration, Sales/Service Cloud, CPQ) with solutions and tests | [`interview/`](interview) |
 | Question bank | Model answers across 13 topics | [`interview/question-bank.md`](interview/question-bank.md) |
 | Study portal | The AI-assisted learning portal used to build all of this | [`portal/`](portal) and [`docs/building-the-portal.md`](docs/building-the-portal.md) |
+| Standalone website | The portal on Firebase (Hosting, Auth, Firestore, Cloud Functions) with a Claude API backend, deployable to your own domain | [`site/`](site) — see [`site/SETUP.md`](site/SETUP.md) |
 
 ## Apex and LWC code
 
