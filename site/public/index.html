@@ -3117,7 +3117,7 @@ function vSettings(){
     <label class="f">Course video budget — weekend (minutes)</label><input type="number" min="5" id="sCwe" value="${st.courseWe}">
     <label class="f">Pace multiplier (1.0 = watch straight through; 1.3 = pauses & notes)</label><input type="number" step="0.1" min="1" id="sPace" value="${st.pace}">
     <label class="f">Minimum minutes for a streak day</label><input type="number" min="1" id="sStreak" value="${st.streakMin}">
-    <label class="f">GitHub repository URL (links solution files)</label><input type="url" id="sRepo" placeholder="https://github.com/you/salesforce-tri-cloud-portfolio" value="${esc(st.repoUrl||'')}">
+    <label class="f">GitHub repository URL (links solution files)</label><input type="url" id="sRepo" placeholder="https://github.com/sireesha1999/salesforce-tri-cloud" value="${esc(st.repoUrl||'')}">
     <div class="row" style="margin-top:12px"><button class="btn primary" id="sSave">Save settings</button></div>
    </div>
    <div class="card"><div class="stat"><div class="k">Backup</div></div>
@@ -3674,7 +3674,7 @@ function ivProgress(){
   return {done,total,pct: total?Math.round(done/total*100):0};
 }
 function repoLink(path){
-  const base=(S.settings.repoUrl||'').replace(/\/+$/,'');
+  const base=(S.settings.repoUrl||'https://github.com/sireesha1999/salesforce-tri-cloud').replace(/\/+$/,'');
   return base && /^https:\/\/github\.com\//.test(base) ? `<a href="${esc(base)}/blob/main/${esc(path)}" target="_blank" rel="noopener noreferrer">${esc(path)}</a>` : `<code class="i">${esc(path)}</code>`;
 }
 function vInterview(){
