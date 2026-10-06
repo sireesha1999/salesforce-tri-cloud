@@ -10,7 +10,7 @@ service cloud.firestore {
     // Private progress, notes, career data and weekly reports.
     match /data/users/{uid}/{docId} {
       allow read: if isOwner() && request.auth.uid == uid;
-      allow write: if isOwner() && request.auth.uid == uid && !docId.matches('weekly-.*');
+      allow write: if isOwner() && request.auth.uid == uid && !docId.matches('weekly-.*') && docId != 'radar';
     }
     // Daily Salesforce updates: written only by the backend.
     match /updates/{id} {

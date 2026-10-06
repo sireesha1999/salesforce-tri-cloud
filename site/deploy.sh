@@ -16,6 +16,16 @@ if [ ! -f functions/.env ]; then
   read -rp "The Google account email allowed to sign in (yours): " EMAIL
   printf 'ALLOWED_EMAIL=%s\n' "$EMAIL" > functions/.env
 fi
+if ! grep -q 'ADZUNA_APP_ID' functions/.env; then
+  echo "Optional Job Radar: free Adzuna API keys from https://developer.adzuna.com (press Enter to skip)."
+  read -rp "Adzuna Application ID: " AZ_ID
+  if [ -n "$AZ_ID" ]; then
+    read -rp "Adzuna Application Key: " AZ_KEY
+    printf 'ADZUNA_APP_ID=%s\nADZUNA_APP_KEY=%s\n' "$AZ_ID" "$AZ_KEY" >> functions/.env
+  else
+    echo "# ADZUNA_APP_ID not set — delete this line and re-run deploy.sh to add Job Radar keys" >> functions/.env
+  fi
+fi
 EMAIL="$(sed -n 's/^ALLOWED_EMAIL=//p' functions/.env)"
 sed "s/__ALLOWED_EMAIL__/${EMAIL}/" firestore.rules.template > firestore.rules
 
@@ -25,6 +35,23 @@ if ! firebase functions:secrets:access GEMINI_API_KEY >/dev/null 2>&1; then
 fi
 
 (cd functions && npm install --omit=dev)
-firebase deploy --only firestore,functions,hosting
+PROJECT_ID="$(sed -n 's/.*"default": *"\([^"]*\)".*/\1/p' .firebaserc)"
+# --force lets the deploy remove functions that moved region without stopping to ask
+if ! firebase deploy --only firestore,functions,hosting --force; then
+  cat <<MSG
+
+Deploy failed. Common first-time fixes:
+ - "missing permission on the build service account": open
+   https://console.cloud.google.com/iam-admin/iam?project=${PROJECT_ID}
+   edit the "...-compute@developer.gserviceaccount.com" principal, add the role
+   "Cloud Build Service Account", save, wait 2 minutes, then run: bash deploy.sh
+ - "Permission denied" / "API not enabled" right after enabling services: wait 2 minutes and run bash deploy.sh again.
+ - Anything else: copy the red error text (never your API key) and ask for help.
+MSG
+  exit 1
+fi
+echo
+echo "Deployed functions:"
+firebase functions:list || true
 echo
 echo "Done. Open the Hosting URL above, then connect your domain in Firebase console → Hosting → Add custom domain."

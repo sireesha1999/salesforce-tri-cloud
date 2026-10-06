@@ -10,6 +10,7 @@ This folder is the standalone version of the portal. It runs entirely on **your*
 | AI tutor, mock scoring, job match, code review | Cloud Function `ai` → Gemini API (free tier) |
 | Daily Salesforce updates (07:46 UK) | Scheduled function `dailyUpdates` (Salesforce blog RSS feeds, summarised by Gemini) |
 | Sunday report (17:55 UK) | Scheduled function `weeklyReport` |
+| Job Radar (07:20 UK, optional) | Scheduled function `jobRadar` — UK Salesforce jobs from the free Adzuna API, scored for you by Gemini |
 
 Time needed: about 45 minutes, most of it waiting for DNS.
 
@@ -35,6 +36,16 @@ Any registrar works — for example Cloudflare Registrar, Namecheap or Squarespa
 Models used: `gemini-3.8-flash` for answers, `gemini-3.5-flash-lite` for quick tasks. Change them with `GEMINI_MODEL` / `GEMINI_MODEL_QUICK` in `functions/.env`. The backend also caps AI calls at 300 per day (`DAILY_AI_LIMIT` in `functions/index.js`); if you hit Google's free-tier rate limit the tutor says so — wait a minute and retry.
 
 Google Search grounding isn't free, so daily updates come from public feeds (Salesforce Developers blog, Salesforce Admins blog, Salesforce Ben, Apex Hours, Salesforce Newsroom) plus a "dev topic of the day". Edit `FEEDS` in `functions/index.js` to change them.
+
+### Optional: Job Radar keys (free)
+
+The Career → Job Radar tab already shows researched UK jobs, pay bands and company notes. To get **fresh jobs every morning**:
+
+1. Go to **developer.adzuna.com**, click **Register**, and create an account (free).
+2. On your dashboard, copy the **Application ID** and **Application Key**.
+3. When `deploy.sh` asks for them, paste them in. Press Enter to skip if you don't want the radar yet.
+
+LinkedIn has no public jobs API and doesn't allow automated sign-ins, so the site never logs in to LinkedIn. Each job and search has a **Find on LinkedIn** button that opens the search in your own browser instead.
 
 ## 4. Install tools (once)
 
@@ -71,6 +82,17 @@ Your lessons, flashcards, mocks, jobs, stories and notes come with it.
 ## 8. Switch off the Claude-hosted jobs
 
 Once the new site works, turn off the two Claude scheduled tasks ("Salesforce daily update pack" and "Weekly study report") so you don't get duplicate updates — or ask Claude to do it.
+
+## If the AI tutor isn't working
+
+Open **Settings & Backup → Test AI connection**. It shows the exact problem:
+
+- **HTTP 404** — the AI function didn't deploy. Run `bash deploy.sh` again and read the last red error.
+- **HTTP 403** — the email in `functions/.env` (`ALLOWED_EMAIL`) doesn't match the Google account you signed in with.
+- **Gemini 400 "User location is not supported"** or **API key not valid** — create a new key in Google AI Studio, then run `firebase functions:secrets:set GEMINI_API_KEY` and `bash deploy.sh`.
+- **Gemini 429** — you've hit the free-tier rate limit; wait a minute.
+
+The AI functions run in `us-central1`, where Gemini's free tier is reliably available. Your data stays in Firestore in London.
 
 ## Notes
 

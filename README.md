@@ -13,6 +13,7 @@ The projects are built around one fictional company, **Nimbus Fleet Ltd**, a UK 
 | Project 3 · Agentforce | Autonomous support agent with Agent Script, Flow/Apex actions and Data 360 grounding | in progress |
 | Project 4 · Tri-Cloud capstone | Usage-based upsell: Data 360 signal → Revenue Cloud quote → Agentforce outreach | in progress |
 | Interview live coding | 18 timed scenarios (Apex, triggers, async, REST, platform events, LWC, Flow, integration, Sales/Service Cloud, CPQ) with solutions and tests | [`interview/`](interview) |
+| Coding practice | 330 scenarios (110 Apex, 110 triggers, 110 LWC), each with a starter, a reference solution, structural checks and an AI review rubric | [`interview/practice/`](interview/practice) |
 | Question bank | Model answers across 13 topics | [`interview/question-bank.md`](interview/question-bank.md) |
 | Study portal | The AI-assisted learning portal used to build all of this | [`portal/`](portal) and [`docs/building-the-portal.md`](docs/building-the-portal.md) |
 | Standalone website | The portal on Firebase (Hosting, Auth, Firestore, Cloud Functions) with a free Google Gemini backend, deployable to your own domain | [`site/`](site) — see [`site/SETUP.md`](site/SETUP.md) |

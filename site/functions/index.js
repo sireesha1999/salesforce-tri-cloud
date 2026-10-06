@@ -21,7 +21,12 @@ const GEMINI_API_KEY = defineSecret('GEMINI_API_KEY');
 const ALLOWED_EMAIL = defineString('ALLOWED_EMAIL');
 const GEMINI_MODEL = defineString('GEMINI_MODEL', { default: 'gemini-3.8-flash' });
 const GEMINI_MODEL_QUICK = defineString('GEMINI_MODEL_QUICK', { default: 'gemini-3.5-flash-lite' });
-const REGION = 'europe-west2';
+// Optional: free Adzuna job-search API keys (developer.adzuna.com) for the daily Job Radar.
+const ADZUNA_APP_ID = defineString('ADZUNA_APP_ID', { default: '' });
+const ADZUNA_APP_KEY = defineString('ADZUNA_APP_KEY', { default: '' });
+// us-central1: Gemini's free tier is reliably reachable from US Google Cloud IPs (some European
+// data-centre IPs are rejected with "User location is not supported"). Firestore stays in London.
+const REGION = 'us-central1';
 const API = 'https://generativelanguage.googleapis.com/v1beta/models/';
 
 const DAILY_AI_LIMIT = 300;          // stays well inside free-tier limits
@@ -85,11 +90,28 @@ function geminiBody(contents, { maxOutputTokens = 8192, json = false } = {}) {
   return { systemInstruction: { parts: [{ text: SYSTEM }] }, contents, generationConfig };
 }
 
+// Fallback chain: if a model is unknown, overloaded or out of free quota, try the next one.
+const FALLBACKS = ['gemini-3.5-flash-lite', 'gemini-flash-latest', 'gemini-flash-lite-latest'];
+function geminiMessage(status, raw) {
+  let msg = raw;
+  try { const j = JSON.parse(raw); msg = (j.error && j.error.message) || raw; } catch (e) { /* not JSON */ }
+  return `Gemini ${status}: ${String(msg).replace(/AIza[0-9A-Za-z_-]{20,}/g, '[key]').slice(0, 300)}`;
+}
 async function gemini(model, body, apiKey, stream) {
-  const url = API + encodeURIComponent(model) + (stream ? ':streamGenerateContent?alt=sse' : ':generateContent');
-  const r = await fetch(url, { method: 'POST', headers: { 'x-goog-api-key': apiKey, 'content-type': 'application/json' }, body: JSON.stringify(body) });
-  if (!r.ok) { const err = new Error(`Gemini API ${r.status}: ${(await r.text()).slice(0, 500)}`); err.status = r.status; throw err; }
-  return r;
+  const chain = [...new Set([model, ...FALLBACKS])];
+  let last;
+  for (const m of chain) {
+    const url = API + encodeURIComponent(m) + (stream ? ':streamGenerateContent?alt=sse' : ':generateContent');
+    const r = await fetch(url, { method: 'POST', headers: { 'x-goog-api-key': apiKey, 'content-type': 'application/json' }, body: JSON.stringify(body) });
+    if (r.ok) { r.modelUsed = m; return r; }
+    const raw = await r.text();
+    last = new Error(geminiMessage(r.status, raw)); last.status = r.status;
+    logger.warn(`model ${m} failed`, last.message);
+    // Bad key / permission problems won't be fixed by another model.
+    if (r.status === 401 || r.status === 403 || (r.status === 400 && /API key|API_KEY/i.test(raw))) break;
+    if (![400, 404, 429, 500, 503].includes(r.status)) break;
+  }
+  throw last;
 }
 
 const textOf = obj => ((((obj || {}).candidates || [])[0] || {}).content || {}).parts?.filter(p => !p.thought).map(p => p.text || '').join('') || '';
@@ -114,14 +136,28 @@ exports.ai = onRequest({ region: REGION, secrets: [GEMINI_API_KEY], timeoutSecon
   if (!user) { res.status(403).send('Not authorised'); return; }
   if ((await countUsage(user.uid)) > DAILY_AI_LIMIT) { res.status(429).send('Daily AI limit reached'); return; }
 
-  const { input, modelTier } = req.body || {};
+  const { input, modelTier, ping, radar } = req.body || {};
+  if (radar) {
+    try { res.json(await runJobRadar(user.uid)); }
+    catch (e) { logger.error('radar', e.message); res.json({ ok: false, error: e.message }); }
+    return;
+  }
+  if (ping) {
+    const t0 = Date.now();
+    try {
+      const r = await gemini(modelFor(modelTier), geminiBody([{ role: 'user', parts: [{ text: 'Reply with the single word OK.' }] }], { maxOutputTokens: 2048 }), GEMINI_API_KEY.value(), false);
+      const text = textOf(await r.json());
+      res.json({ ok: true, model: r.modelUsed, reply: text.slice(0, 40), ms: Date.now() - t0 });
+    } catch (e) { res.json({ ok: false, error: e.message, ms: Date.now() - t0 }); }
+    return;
+  }
   const contents = toContents(input);
   if (!contents.length) { res.status(400).send('Empty input'); return; }
   if (JSON.stringify(contents).length > MAX_INPUT_CHARS) { res.status(413).send('Input too large'); return; }
 
   let upstream;
   try { upstream = await gemini(modelFor(modelTier), geminiBody(contents), GEMINI_API_KEY.value(), true); }
-  catch (e) { logger.error(e.message); res.status(e.status === 429 ? 429 : 502).send(e.status === 429 ? 'Free-tier limit reached — try again shortly' : 'AI service error'); return; }
+  catch (e) { logger.error(e.message); res.status(e.status === 429 ? 429 : 502).send(e.status === 429 ? 'Free-tier limit reached on every model — wait a minute and try again.' : e.message); return; }
 
   res.setHeader('Content-Type', 'text/plain; charset=utf-8');
   res.setHeader('Cache-Control', 'no-cache, no-transform');
@@ -212,6 +248,81 @@ ${list || '(no new posts found — return only the topic item)'}`;
   }
   if (items.length) await batch.commit();
   logger.info(`dailyUpdates: ${posts.length} posts considered, ${items.length} items written`);
+});
+
+/* ---------------- Job Radar (Adzuna + Gemini) ---------------- */
+const RADAR_QUERIES = ['salesforce developer', 'salesforce data cloud', 'salesforce agentforce', 'salesforce cpq', 'salesforce revenue cloud', 'salesforce lwc', 'salesforce integration', 'salesforce service cloud'];
+const DEFAULT_SKILLS = 'Salesforce Data 360 (Data Cloud), Revenue Cloud (Revenue Lifecycle Management) and CPQ, Agentforce, Apex, triggers, asynchronous Apex, SOQL, Lightning Web Components, integration (REST, platform events, middleware), Flow, Sales Cloud, Service Cloud';
+
+async function adzunaSearch(what) {
+  const q = new URLSearchParams({ app_id: ADZUNA_APP_ID.value(), app_key: ADZUNA_APP_KEY.value(), what, results_per_page: '40', max_days_old: '14', sort_by: 'date', 'content-type': 'application/json' });
+  const r = await fetch(`https://api.adzuna.com/v1/api/jobs/gb/search/1?${q}`);
+  if (!r.ok) throw new Error(`Adzuna ${r.status}: ${(await r.text()).slice(0, 200)}`);
+  return ((await r.json()).results || []);
+}
+
+async function runJobRadar(uid) {
+  if (!ADZUNA_APP_ID.value() || !ADZUNA_APP_KEY.value()) return { ok: false, error: 'Job Radar needs free Adzuna API keys — see SETUP.md (Job Radar).' };
+  const base = `data/users/${uid}`;
+  const [cs, rs] = await Promise.all([db.doc(`${base}/content`).get(), db.doc(`${base}/radar`).get()]);
+  const content = (() => { try { return JSON.parse((cs.exists && cs.data().json) || '{}'); } catch (e) { return {}; } })();
+  const prev = (() => { try { return JSON.parse((rs.exists && rs.data().json) || '{}'); } catch (e) { return {}; } })();
+  const profile = content.careerProfile || {};
+
+  const seen = new Map();
+  const lists = await Promise.all(RADAR_QUERIES.map(q => adzunaSearch(q).catch(e => { logger.warn('adzuna', q, e.message); return []; })));
+  for (const list of lists) {
+    {
+      for (const j of list) {
+        const id = 'az-' + j.id;
+        if (seen.has(id) || !/salesforce|sfdc|agentforce|cpq|lwc|apex/i.test(`${j.title} ${j.description}`)) continue;
+        seen.set(id, {
+          id, title: stripTags(j.title || ''), company: (j.company && j.company.display_name) || 'Not stated',
+          location: (j.location && j.location.display_name) || 'UK', url: j.redirect_url, posted: String(j.created || '').slice(0, 10),
+          type: [j.contract_type, j.contract_time].filter(Boolean).join(', ').replace(/_/g, ' '),
+          salaryMin: j.salary_min || null, salaryMax: j.salary_max || null, salaryPredicted: j.salary_is_predicted === '1' || j.salary_is_predicted === 1,
+          snippet: stripTags(j.description || '').slice(0, 600), source: 'Adzuna'
+        });
+      }
+    }
+  }
+  const prevById = new Map((prev.jobs || []).map(j => [j.id, j]));
+  const fresh = [...seen.values()].sort((a, b) => b.posted.localeCompare(a.posted));
+  const toScore = fresh.filter(j => !(prevById.get(j.id) || {}).verdict).slice(0, 60);
+
+  const profileText = `Current role: ${profile.title || 'Salesforce developer'}; years of experience: ${profile.years || 'not given'}; current salary: ${profile.salary ? '£' + profile.salary : 'not given'}; preferred locations: ${profile.location || 'UK'}; work mode: ${profile.mode || 'any'}; career goals: ${profile.goals || 'grow in Data 360, Revenue Cloud and Agentforce; move towards AI engineering'}; skills: ${profile.skills || DEFAULT_SKILLS}.`;
+  const batches = []; for (let i = 0; i < toScore.length; i += 15) batches.push(toScore.slice(i, i + 15));
+  // Batches run in parallel so an on-demand refresh finishes inside Hosting's 60-second limit.
+  await Promise.all(batches.map(async batch => {
+    const prompt = `You are a UK tech careers adviser. Candidate profile: ${profileText}
+
+For EACH job below, judge fit and whether switching would be good for this candidate's career. Use only the job text and widely known facts about the employer; if you don't know the company, say so. Salaries are GBP per year (daily rate if under 2000). Reply with only JSON: {"jobs":[{"id":"...","matchScore":0-100,"matchedSkills":["..."],"gaps":["..."],"verdict":"Strong move|Good move|Sideways|Not recommended","reasons":["2-4 short reasons covering pay vs current salary, skills growth and risks"],"company":"1-2 sentences on what the employer does and its Salesforce use (or 'Recruitment agency — client not named')","payNote":"1 sentence comparing the pay with the candidate's current salary and UK market"}]}
+
+JOBS:
+${batch.map(j => `id=${j.id} | ${j.title} | ${j.company} | ${j.location} | ${j.type} | salary ${j.salaryMin || '?'}-${j.salaryMax || '?'}${j.salaryPredicted ? ' (Adzuna estimate)' : ''}\n${j.snippet}`).join('\n\n')}`;
+    try {
+      const out = parseJson(await generateText(prompt, GEMINI_API_KEY.value(), { json: true, maxOutputTokens: 8192 }));
+      for (const a of (out && out.jobs) || []) {
+        const j = seen.get(a.id); if (!j) continue;
+        Object.assign(j, {
+          matchScore: Math.max(0, Math.min(100, +a.matchScore || 0)), matchedSkills: (a.matchedSkills || []).slice(0, 8).map(String),
+          gaps: (a.gaps || []).slice(0, 6).map(String), verdict: String(a.verdict || ''), reasons: (a.reasons || []).slice(0, 4).map(String),
+          companyBrief: String(a.company || '').slice(0, 600), payNote: String(a.payNote || '').slice(0, 400)
+        });
+      }
+    } catch (e) { logger.warn('radar scoring', e.message); }
+  }));
+  for (const j of fresh) { const p = prevById.get(j.id); if (p && p.verdict && !j.verdict) Object.assign(j, { matchScore: p.matchScore, matchedSkills: p.matchedSkills, gaps: p.gaps, verdict: p.verdict, reasons: p.reasons, companyBrief: p.companyBrief, payNote: p.payNote }); }
+  const jobs = fresh.filter(j => j.verdict).sort((a, b) => b.matchScore - a.matchScore).slice(0, 40);
+  const doc = { date: londonDate(), at: new Date().toISOString(), found: fresh.length, jobs };
+  await db.doc(`${base}/radar`).set({ json: JSON.stringify(doc) });
+  return { ok: true, found: fresh.length, kept: jobs.length };
+}
+
+exports.jobRadar = onSchedule({ schedule: '20 7 * * *', timeZone: 'Europe/London', region: REGION, secrets: [GEMINI_API_KEY], timeoutSeconds: 540, memory: '512MiB' }, async () => {
+  if (!ADZUNA_APP_ID.value()) { logger.info('jobRadar skipped: no Adzuna keys'); return; }
+  const user = await admin.auth().getUserByEmail(ALLOWED_EMAIL.value().trim());
+  logger.info('jobRadar', await runJobRadar(user.uid));
 });
 
 /* ---------------- weekly report ---------------- */
